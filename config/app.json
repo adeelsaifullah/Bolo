@@ -29,6 +29,16 @@
     "lesson_data_budget_mb": 1.5,
     "pwa_cache_max_mb": 5
   },
+  "lessons": {
+    "track_days": 30,
+    "launch_days_per_track": 14,
+    "phrases_min": 3,
+    "phrases_max": 4,
+    "turns_min": 4,
+    "turns_max": 6,
+    "tutor_line_max_words": 30,
+    "model_answer_max_words": 90
+  },
   "retention": {
     "audio_days": 30,
     "unclaimed_anonymous_audio_hours": 24
