@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "track": "interview",
+  "day": 2,
+  "version": 1,
+  "status": "draft",
+  "source": "general_public_knowledge",
+  "title": { "roman": "Aap ki taleem" },
+  "goal": "Describe your studies and your final-year project in simple sentences.",
+  "phrases": [
+    {
+      "id": "p1",
+      "text": "I have a degree in ...",
+      "meaning": { "roman": "Mere paas ... mein degree hai." },
+      "example": "I have a degree in computer science."
+    },
+    {
+      "id": "p2",
+      "text": "I studied at ...",
+      "meaning": { "roman": "Maine ... mein parha hai." },
+      "example": "I studied at a university in Karachi."
+    },
+    {
+      "id": "p3",
+      "text": "My final-year project was about ...",
+      "meaning": { "roman": "Mera final-year ka project ... ke baare mein tha." },
+      "example": "My final-year project was about a simple app for students."
+    },
+    {
+      "id": "p4",
+      "text": "I learned how to ...",
+      "meaning": { "roman": "Maine ... karna seekha." },
+      "example": "I learned how to work in a team."
+    }
+  ],
+  "roleplay": [
+    {
+      "id": "t1",
+      "tutor_line": "Tell me about your education.",
+      "task": { "roman": "Apni taleem ke baare mein batayein: degree, jagah aur saal." },
+      "model_answer": "I have a degree in computer science. I studied at a university in Lahore and I finished in 2024.",
+      "target_phrases": ["p1", "p2"]
+    },
+    {
+      "id": "t2",
+      "tutor_line": "Which subject did you enjoy the most, and why?",
+      "task": { "roman": "Apna pasandida subject aur uski wajah batayein." },
+      "model_answer": "I enjoyed statistics the most. I like working with numbers, and I learned how to find simple answers from data.",
+      "target_phrases": ["p4"]
+    },
+    {
+      "id": "t3",
+      "tutor_line": "Tell me about your final-year project.",
+      "task": { "roman": "Apne final-year project ke baare mein do ya teen jumle bolein." },
+      "model_answer": "My final-year project was about a simple app for students. It helped them find study groups near their homes.",
+      "target_phrases": ["p3"]
+    },
+    {
+      "id": "t4",
+      "tutor_line": "What was your part in the project?",
+      "task": { "roman": "Batayein ke project mein aap ne kya kaam kiya." },
+      "model_answer": "I wrote the main report and I tested the app. I learned how to explain technical ideas in simple words.",
+      "target_phrases": ["p4"]
+    },
+    {
+      "id": "t5",
+      "tutor_line": "What did you learn from your studies that is useful at work?",
+      "task": { "roman": "Batayein ke taleem se aap ne kya seekha jo daftar ke kaam mein madadgar hai." },
+      "model_answer": "I learned how to manage my time and how to work in a team. These skills are useful in any office.",
+      "target_phrases": ["p4"]
+    }
+  ],
+  "review_notes": [
+    "The examples assume a university degree. Should I add a line or two for learners with an intermediate or diploma background?"
+  ]
+}

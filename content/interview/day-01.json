@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "track": "interview",
+  "day": 1,
+  "version": 1,
+  "status": "draft",
+  "source": "general_public_knowledge",
+  "title": { "roman": "Salam aur apna taaruf" },
+  "goal": "Greet the interviewer politely and tell them who you are in three short sentences.",
+  "phrases": [
+    {
+      "id": "p1",
+      "text": "Good morning. It is nice to meet you.",
+      "meaning": { "roman": "Subah bakhair. Aap se mil kar khushi hui." },
+      "example": "Good morning, madam. It is nice to meet you."
+    },
+    {
+      "id": "p2",
+      "text": "My name is ...",
+      "meaning": { "roman": "Mera naam ... hai." },
+      "example": "My name is Ayesha Khan."
+    },
+    {
+      "id": "p3",
+      "text": "I am from ...",
+      "meaning": { "roman": "Main ... se hoon." },
+      "example": "I am from Lahore."
+    },
+    {
+      "id": "p4",
+      "text": "I am good at ...",
+      "meaning": { "roman": "Main ... mein achha/achhi hoon." },
+      "example": "I am good at working with people."
+    }
+  ],
+  "roleplay": [
+    {
+      "id": "t1",
+      "tutor_line": "Good morning. Please come in and have a seat.",
+      "task": { "roman": "Interviewer ko salam karein aur unse milne ki khushi ka izhaar karein." },
+      "model_answer": "Good morning. It is nice to meet you. Thank you for seeing me.",
+      "target_phrases": ["p1"]
+    },
+    {
+      "id": "t2",
+      "tutor_line": "Please tell me your name and where you are from.",
+      "task": { "roman": "Apna naam aur shehr batayein." },
+      "model_answer": "My name is Ayesha Khan. I am from Lahore.",
+      "target_phrases": ["p2", "p3"]
+    },
+    {
+      "id": "t3",
+      "tutor_line": "Now, tell me a little about yourself.",
+      "task": { "roman": "Apne baare mein teen chhote jumle bolein: naam, shehr aur ek khubi." },
+      "model_answer": "My name is Ayesha Khan and I am from Lahore. I have just finished my degree. I am good at working with people.",
+      "target_phrases": ["p2", "p3", "p4"]
+    },
+    {
+      "id": "t4",
+      "tutor_line": "What are you good at?",
+      "task": { "roman": "Apni ek khubi batayein aur ek chhoti misaal dein." },
+      "model_answer": "I am good at learning new things quickly. At university, I learned a new computer program in one week.",
+      "target_phrases": ["p4"]
+    },
+    {
+      "id": "t5",
+      "tutor_line": "Thank you for coming. It was nice to meet you.",
+      "task": { "roman": "Shukriya ada karein aur khushi se rukhsat hon." },
+      "model_answer": "Thank you for your time. It was nice to meet you too.",
+      "target_phrases": ["p1"]
+    }
+  ],
+  "review_notes": [
+    "The examples say 'madam'. Keep it, drop it, or use 'sir' as well? Check it matches how interviews really start in your market."
+  ]
+}

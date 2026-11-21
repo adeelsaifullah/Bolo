@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "track": "interview",
+  "day": 14,
+  "version": 1,
+  "status": "draft",
+  "source": "general_public_knowledge",
+  "title": { "roman": "Mock interview 2" },
+  "goal": "Go through a complete short interview, from the greeting to the goodbye.",
+  "phrases": [
+    {
+      "id": "p1",
+      "text": "It is nice to meet you.",
+      "meaning": { "roman": "Aap se mil kar khushi hui." },
+      "example": "Good afternoon. It is nice to meet you."
+    },
+    {
+      "id": "p2",
+      "text": "One of my strengths is ...",
+      "meaning": { "roman": "Meri ek khubi ... hai." },
+      "example": "One of my strengths is staying calm."
+    },
+    {
+      "id": "p3",
+      "text": "My task was to ...",
+      "meaning": { "roman": "Meri zimmedari ... thi." },
+      "example": "My task was to write the first part of the report."
+    },
+    {
+      "id": "p4",
+      "text": "Could you tell me more about ...?",
+      "meaning": { "roman": "Kya aap mujhe ... ke baare mein mazeed bata sakte hain?" },
+      "example": "Could you tell me more about the team?"
+    }
+  ],
+  "roleplay": [
+    {
+      "id": "t1",
+      "tutor_line": "Good afternoon. Please come in. Tell me about yourself.",
+      "task": { "roman": "Salam karein aur apna taaruf karayein: naam, shehr aur taleem." },
+      "model_answer": "Good afternoon. It is nice to meet you. My name is Sana Ali and I am from Islamabad. I have a degree in economics and I like working with people.",
+      "target_phrases": ["p1"]
+    },
+    {
+      "id": "t2",
+      "tutor_line": "Why are you interested in this job?",
+      "task": { "roman": "Batayein ke aap yeh job kyun karna chahte hain." },
+      "model_answer": "I am interested in this job because I like solving problems. I also want to learn from a good team.",
+      "target_phrases": []
+    },
+    {
+      "id": "t3",
+      "tutor_line": "What is one of your strengths?",
+      "task": { "roman": "Apni ek khubi batayein aur misaal dein." },
+      "model_answer": "One of my strengths is staying calm. For example, I stayed calm when my group had a problem before a presentation.",
+      "target_phrases": ["p2"]
+    },
+    {
+      "id": "t4",
+      "tutor_line": "Tell me about a time you worked in a team.",
+      "task": { "roman": "Team ka ek mauqa batayein: aap ki zimmedari aur natija." },
+      "model_answer": "In my final-year project, my task was to collect data and write the first part of the report. We finished on time.",
+      "target_phrases": ["p3"]
+    },
+    {
+      "id": "t5",
+      "tutor_line": "When can you start, and do you have any questions for me?",
+      "task": { "roman": "Batayein ke aap kab se kaam shuru kar sakte hain, phir ek sawal poochein." },
+      "model_answer": "I can start from next month. Could you tell me more about the first month for a new person?",
+      "target_phrases": ["p4"]
+    },
+    {
+      "id": "t6",
+      "tutor_line": "Thank you for coming today. That is all from my side.",
+      "task": { "roman": "Shukriya ada karein aur khushi se rukhsat hon." },
+      "model_answer": "Thank you very much for your time. It was nice to meet you.",
+      "target_phrases": ["p1"]
+    }
+  ],
+  "review_notes": [
+    "The interviewer ends with 'That is all from my side' on purpose: it says nothing about the result. Keep it that way."
+  ]
+}

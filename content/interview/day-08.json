@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "track": "interview",
+  "day": 8,
+  "version": 1,
+  "status": "draft",
+  "source": "general_public_knowledge",
+  "title": { "roman": "Samajh na aaye to kya kahein" },
+  "goal": "Ask politely when you did not hear or understand a question, and take a moment to think.",
+  "phrases": [
+    {
+      "id": "p1",
+      "text": "Could you please repeat that?",
+      "meaning": { "roman": "Kya aap yeh dobara keh sakte hain?" },
+      "example": "Sorry, could you please repeat that?"
+    },
+    {
+      "id": "p2",
+      "text": "Do you mean ...?",
+      "meaning": { "roman": "Kya aap ka matlab ... hai?" },
+      "example": "Do you mean my last job or my first job?"
+    },
+    {
+      "id": "p3",
+      "text": "Let me think for a moment.",
+      "meaning": { "roman": "Mujhe ek lamha sochne dein." },
+      "example": "That is a good question. Let me think for a moment."
+    },
+    {
+      "id": "p4",
+      "text": "I am sorry, the line is not clear.",
+      "meaning": { "roman": "Maaf karein, awaz saaf nahi aa rahi." },
+      "example": "I am sorry, the line is not clear. Could you speak a little slower?"
+    }
+  ],
+  "roleplay": [
+    {
+      "id": "t1",
+      "tutor_line": "Hello, this is a phone interview. Can you hear me clearly?",
+      "task": { "roman": "Farz karein ke awaz saaf nahi aa rahi. Tameez se kahein ke awaz saaf nahi hai aur thora aahista bolne ko kahein." },
+      "model_answer": "I am sorry, the line is not clear. Could you speak a little slower, please?",
+      "target_phrases": ["p4", "p1"]
+    },
+    {
+      "id": "t2",
+      "tutor_line": "How do you handle multiple priorities at work?",
+      "task": { "roman": "Aap ko 'multiple priorities' samajh nahi aaya. Apni samajh ke mutabiq poochein: kya aap ka matlab ... hai?" },
+      "model_answer": "Do you mean many tasks at the same time?",
+      "target_phrases": ["p2"]
+    },
+    {
+      "id": "t3",
+      "tutor_line": "Yes, exactly. So how do you handle them?",
+      "task": { "roman": "Pehle sochne ke liye thora waqt maangein, phir apna jawab dein." },
+      "model_answer": "Let me think for a moment. I make a list, and I finish the most important task first.",
+      "target_phrases": ["p3"]
+    },
+    {
+      "id": "t4",
+      "tutor_line": "Sorry, I did not catch that. Could you say it again?",
+      "task": { "roman": "Interviewer ne dobara poochha hai. Apna jawab chhote aur saaf lafzon mein dohrayein." },
+      "model_answer": "Of course. I make a list and I finish the most important task first.",
+      "target_phrases": []
+    },
+    {
+      "id": "t5",
+      "tutor_line": "One more question: where did you finish your degree, and in which year, and what was your result?",
+      "task": { "roman": "Sawal lamba hai. Pehle tameez se kahein ke dobara bolein, phir jo yaad hai uska jawab dein." },
+      "model_answer": "Sorry, could you please repeat that? I finished my degree at a university in Lahore in 2024.",
+      "target_phrases": ["p1"]
+    }
+  ],
+  "review_notes": [
+    "This day practises communication tricks more than answers. Turn 2 uses the word 'priorities' on purpose so the learner has something to ask about. Is that word right for your learners?"
+  ]
+}

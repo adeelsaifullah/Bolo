@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "track": "interview",
+  "day": 5,
+  "version": 1,
+  "status": "draft",
+  "source": "general_public_knowledge",
+  "title": { "roman": "Aap ki kamzori" },
+  "goal": "Talk about a real weakness honestly and say how you are improving it.",
+  "phrases": [
+    {
+      "id": "p1",
+      "text": "One thing I am working on is ...",
+      "meaning": { "roman": "Ek cheez jis par main kaam kar raha/rahi hoon, wo ... hai." },
+      "example": "One thing I am working on is speaking in front of groups."
+    },
+    {
+      "id": "p2",
+      "text": "I used to ..., but now I ...",
+      "meaning": { "roman": "Pehle main ... karta/karti tha, lekin ab main ... karta/karti hoon." },
+      "example": "I used to be shy, but now I speak more in class."
+    },
+    {
+      "id": "p3",
+      "text": "To improve, I ...",
+      "meaning": { "roman": "Behtar hone ke liye, main ... karta/karti hoon." },
+      "example": "To improve, I practise speaking English every day."
+    },
+    {
+      "id": "p4",
+      "text": "I am learning to ...",
+      "meaning": { "roman": "Main ... seekh raha/rahi hoon." },
+      "example": "I am learning to ask for help when I need it."
+    }
+  ],
+  "roleplay": [
+    {
+      "id": "t1",
+      "tutor_line": "What is one weakness you have?",
+      "task": { "roman": "Apni ek asli kamzori imandari se batayein." },
+      "model_answer": "One thing I am working on is speaking in front of groups. I sometimes feel nervous.",
+      "target_phrases": ["p1"]
+    },
+    {
+      "id": "t2",
+      "tutor_line": "Has it always been like this?",
+      "task": { "roman": "Batayein ke pehle halaat kaise the aur ab kaise hain." },
+      "model_answer": "I used to be very shy, but now I speak more in class.",
+      "target_phrases": ["p2"]
+    },
+    {
+      "id": "t3",
+      "tutor_line": "What are you doing to improve?",
+      "task": { "roman": "Batayein ke behtar hone ke liye aap kya kar rahe hain." },
+      "model_answer": "To improve, I practise speaking English every day for ten minutes. I also join group discussions.",
+      "target_phrases": ["p3"]
+    },
+    {
+      "id": "t4",
+      "tutor_line": "Is there anything else you are trying to learn?",
+      "task": { "roman": "Ek aur cheez batayein jo aap seekh rahe hain." },
+      "model_answer": "I am learning to ask for help when I need it. It saves time and I make fewer mistakes.",
+      "target_phrases": ["p4"]
+    },
+    {
+      "id": "t5",
+      "tutor_line": "How has working on this helped you?",
+      "task": { "roman": "Batayein ke is par kaam karne se aap ko kya faida hua." },
+      "model_answer": "I feel more confident now. I used to avoid speaking, but now I try to speak first.",
+      "target_phrases": ["p2"]
+    }
+  ],
+  "review_notes": [
+    "The example weakness is being shy in groups. Is that a safe answer in your market, or should the examples be more work-related (for example, taking on too much work)?"
+  ]
+}
