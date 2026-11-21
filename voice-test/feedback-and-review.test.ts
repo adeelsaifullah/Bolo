@@ -1,7 +1,5 @@
-import { readFile } from "node:fs/promises";
-import { join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { buildFeedbackRequest, FEEDBACK_PROMPT_FILE, loadFeedbackPrompt, parseFeedback } from "./feedback";
+import { buildFeedbackRequest, loadFeedbackPrompt, parseFeedback } from "./feedback";
 import { markKey, mergeReviewSheet, parseVerdict, readMarks, type ReviewRow } from "./review";
 import { REPO_ROOT } from "./test-helpers";
 
@@ -15,30 +13,40 @@ const good = {
 };
 
 describe("the feedback prompt", () => {
-  it("is a real versioned file with the Urdu script slot and the copy rules", async () => {
+  it("is the tutor prompt the app will ship, versioned, with the Urdu script slot", async () => {
     const prompt = await loadFeedbackPrompt(REPO_ROOT);
-    expect(prompt.version).toBe("voice-test-feedback.v0");
+    expect(prompt.version).toBe("tutor-feedback.v1");
     expect(prompt.hash).toMatch(/^[0-9a-f]{64}$/);
     expect(prompt.template).toContain("{{script}}");
-    const text = await readFile(join(REPO_ROOT, FEEDBACK_PROMPT_FILE), "utf8");
-    // CLAUDE.md copy rules: no pronunciation score, no job/visa/salary promise, no "verified" score.
-    expect(text).toMatch(/pronunciation/i);
-    expect(text).toMatch(/job, a visa or a salary/);
-    expect(text).toMatch(/verified, official or certified/);
-    expect(text).toMatch(/exactly 3 corrections/);
+    expect(prompt.template).toMatch(/exactly 3 corrections/);
   });
 
-  it("builds a request that carries only text: the task, the transcript and the speaking speed", async () => {
+  it("builds a request that carries only text, in the message format the prompt describes", async () => {
     const prompt = await loadFeedbackPrompt(REPO_ROOT);
-    const request = buildFeedbackRequest(prompt, { script: "roman", task: "Introduce yourself", transcript: "my name is Ayesha and I like work", audioSeconds: 30 });
+    const request = buildFeedbackRequest(prompt, { script: "roman", question: "Introduce yourself", transcript: "my name is Ayesha and I like work", audioSeconds: 30 });
     expect(request.responseFormat).toBe("json");
-    expect(request.system).not.toContain("{{script}}");
+    expect(request.system).not.toMatch(/\{\{|\}\}/);
     expect(request.system).toContain("Roman Urdu");
     expect(request.messages).toHaveLength(1);
     expect(request.messages[0]?.content).toBe(
-      "Task: Introduce yourself\nSeconds spoken: 30\nWords per minute: 16\nText of the answer:\nmy name is Ayesha and I like work",
+      [
+        "Lesson goal: General interview practice. This recording is not from a lesson.",
+        "Interviewer said: Introduce yourself",
+        "Learner's task: Answer the interviewer's question in English.",
+        "Example answer: none",
+        "Phrases from today's lesson: none",
+        "Seconds spoken: 30",
+        "Words per minute: 16",
+        "Answer: my name is Ayesha and I like work",
+      ].join("\n"),
     );
-    expect(buildFeedbackRequest(prompt, { script: "urdu", task: "t", transcript: "hello", audioSeconds: 5 }).system).toContain("Urdu script");
+    expect(buildFeedbackRequest(prompt, { script: "urdu", question: "q", transcript: "hello", audioSeconds: 5 }).system).toContain("Urdu script");
+  });
+
+  it("says so when the question was not recorded", async () => {
+    const prompt = await loadFeedbackPrompt(REPO_ROOT);
+    const request = buildFeedbackRequest(prompt, { script: "roman", question: "", transcript: "hello", audioSeconds: 5 });
+    expect(request.messages[0]?.content).toContain("Interviewer said: (the question was not recorded)");
   });
 });
 

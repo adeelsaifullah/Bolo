@@ -110,6 +110,29 @@ export const appSchema = z.strictObject({
     /** Largest the PWA cache may grow, in MB (PRD 14). */
     pwa_cache_max_mb: positive,
   }),
+  /** What a lesson file may contain (PRD 4.1 and 4.7). The lesson validator in /content reads these. */
+  lessons: z
+    .strictObject({
+      /** Length of each track in days. */
+      track_days: count,
+      /** Days of each track that are live at launch; the rest are released weekly. */
+      launch_days_per_track: count,
+      phrases_min: count,
+      phrases_max: count,
+      turns_min: count,
+      turns_max: count,
+      /** Authoring limit: keeps the tutor's spoken line (and its audio) short. */
+      tutor_line_max_words: count,
+      /** Authoring limit: a model answer must be easy to say well inside limits.answer_max_seconds. */
+      model_answer_max_words: count,
+    })
+    .superRefine((lessons, ctx) => {
+      for (const [min, max] of [["phrases_min", "phrases_max"], ["turns_min", "turns_max"]] as const) {
+        const low = lessons[min];
+        const high = lessons[max];
+        if (low !== null && high !== null && low > high) ctx.addIssue({ code: "custom", path: [min], message: `must not be more than ${max}` });
+      }
+    }),
   retention: z.strictObject({
     audio_days: count,
     unclaimed_anonymous_audio_hours: count,

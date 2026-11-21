@@ -6,12 +6,15 @@ import type { LlmProvider, LlmRequest } from "@/lib/llm";
 import { ProviderError } from "@/lib/providers/errors";
 import { tokenCostUsd } from "@/lib/providers/pricing";
 import { withConsentGuard } from "@/lib/stt";
-import { FEEDBACK_PROMPT_FILE } from "./feedback";
+import { loadPrompt } from "@/content/prompts";
 import { comboName, runVoiceTest, type RunDeps, type RunOptions } from "./run";
 import type { SummaryJson, Thresholds } from "./summary";
 import { makeRecordingsDir, REPO_ROOT, removeTempDirs, tempDir } from "./test-helpers";
 
 afterEach(removeTempDirs);
+
+const PROMPT_FILE = "prompts/tutor-feedback.md";
+const PROMPT_LABEL = (await loadPrompt(REPO_ROOT, "tutor-feedback")).label;
 
 const T: Thresholds = { minRecordings: 3, minSpeakers: 3, minCorrectionsRight: 0.9, maxWerOverall: 0.2, maxWerGroup: 0.25, maxCostPkrPerMinute: 2, planningCostPkrPerMinute: 1.5 };
 const FX = 280;
@@ -94,7 +97,7 @@ class Harness {
   }
 
   get comboDir(): string {
-    return join(this.resultsRoot, comboName({ name: "fakestt", model: "s1" }, { name: "fakellm", model: "l1" }));
+    return join(this.resultsRoot, comboName({ name: "fakestt", model: "s1" }, { name: "fakellm", model: "l1" }, PROMPT_LABEL));
   }
 
   async summary(): Promise<SummaryJson> {
@@ -128,15 +131,15 @@ describe("a full run", () => {
     expect(stats.cost.perMinuteUsd).toBeCloseTo(0.003 + (3 * tokenCostUsd(500, 300, 0.2, 0.2)) / 0.15, 10); // speech 0.003 a minute + 3 feedback calls over 0.15 minutes
     expect(verdicts.item5.verdict).toBe("PASS"); // about PKR 1.7 per minute
     expect(verdicts.item4.verdict).toBe("PENDING"); // word error rates are fine, nothing is marked yet
-    expect(meta).toMatchObject({ callsMade: 3, reused: 0, promptVersion: "voice-test-feedback.v0" });
+    expect(meta).toMatchObject({ callsMade: 3, reused: 0, promptVersion: PROMPT_LABEL });
   });
 
-  it("gives the LLM only text, with the task from reference.csv", async () => {
+  it("gives the LLM only text, with the question from reference.csv", async () => {
     const h = await harness();
     await h.run();
     const first = h.llmCalls[0]!;
     expect(first.messages).toHaveLength(1);
-    expect(first.messages[0]?.content).toContain("Task: Introduce yourself");
+    expect(first.messages[0]?.content).toContain("Interviewer said: Introduce yourself");
     expect(first.messages[0]?.content).toContain("hello world");
     expect(first.responseFormat).toBe("json");
   });
@@ -249,10 +252,10 @@ describe("saved results", () => {
   it("redo only the feedback when the prompt file is edited, keeping the paid speech-to-text", async () => {
     const promptRoot = await tempDir();
     await mkdir(join(promptRoot, "prompts"), { recursive: true });
-    await cp(join(REPO_ROOT, FEEDBACK_PROMPT_FILE), join(promptRoot, FEEDBACK_PROMPT_FILE));
+    await cp(join(REPO_ROOT, PROMPT_FILE), join(promptRoot, PROMPT_FILE));
     const h = new Harness(await makeRecordingsDir(FILES, CONSENT, REFERENCE), join(await tempDir(), "results"), promptRoot);
     await h.run();
-    await writeFile(join(promptRoot, FEEDBACK_PROMPT_FILE), (await readFile(join(promptRoot, FEEDBACK_PROMPT_FILE), "utf8")) + "\nBe brief.\n");
+    await writeFile(join(promptRoot, PROMPT_FILE), (await readFile(join(promptRoot, PROMPT_FILE), "utf8")) + "\nBe brief.\n");
     await h.run();
     expect(h.sttCalls).toHaveLength(3);
     expect(h.llmCalls).toHaveLength(6);

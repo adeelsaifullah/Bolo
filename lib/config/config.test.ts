@@ -87,6 +87,15 @@ describe("values filled from PRD section 16", () => {
     ["plans", "plans.plus_1499.minutes", 300, "5.1"],
     ["plans", "plans.plus_1499.day_cap_minutes", 15, "5.1"],
     ["plans", "plans.team.phase", 1, "5.4"],
+    // Lesson limits, added in P0-3 so the lesson validator does not hard-code them (rule 3).
+    ["app", "lessons.track_days", 30, "4.7"],
+    ["app", "lessons.launch_days_per_track", 14, "4.7"],
+    ["app", "lessons.phrases_min", 3, "4.1"],
+    ["app", "lessons.phrases_max", 4, "4.1"],
+    ["app", "lessons.turns_min", 4, "4.1"],
+    ["app", "lessons.turns_max", 6, "4.1"],
+    ["app", "lessons.tutor_line_max_words", 30, "4.1"],
+    ["app", "lessons.model_answer_max_words", 90, "4.1"],
     // G0 voice-test thresholds, added in P0-2 so the harness does not hard-code them (rule 3).
     ["app", "gates.g0.voice_test_min_recordings", 40, "2"],
     ["app", "gates.g0.voice_test_min_speakers", 15, "2"],
@@ -275,6 +284,15 @@ describe("validation", () => {
       data.app.limits[key] = value;
       expect(catchError(() => parseConfig(data)).message).toContain(`limits.${key}`);
     }
+  });
+
+  it.each([
+    ["phrases_min", 5],
+    ["turns_min", 7],
+  ] as const)("rejects lesson %s above its maximum", (key, value) => {
+    const data = raw();
+    data.app.lessons[key] = value;
+    expect(catchError(() => parseConfig(data)).message).toContain(`lessons.${key}`);
   });
 
   it("rejects an unknown payment mode", () => {

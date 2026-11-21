@@ -6,9 +6,6 @@ import { readTable } from "./csv";
 export const CONSENT_FILE = "consent.csv";
 export const REFERENCE_FILE = "reference.csv";
 
-/** The task a learner is assumed to be answering when reference.csv has no "prompt" column. */
-export const DEFAULT_TASK = "Answer a job-interview question in English.";
-
 /** A problem with the files the founder supplied. The message says what to fix. */
 export class InputError extends Error {
   constructor(message: string) {
@@ -21,8 +18,8 @@ export interface Reference {
   speaker: string;
   group: string;
   text: string;
-  /** What the speaker was asked, when reference.csv says. */
-  task: string;
+  /** What the speaker was asked (the "prompt" column of reference.csv). Empty when it does not say. */
+  question: string;
 }
 
 export interface InputItem {
@@ -154,7 +151,7 @@ export async function loadInputs(dir: string): Promise<LoadedInputs> {
         speaker: referenceRow.speaker ?? "",
         group: referenceRow.speaker_group ?? "",
         text: referenceRow.reference_transcript ?? "",
-        task: referenceRow.prompt || DEFAULT_TASK,
+        question: referenceRow.prompt ?? "",
       };
       if (ref.speaker === "" || ref.group === "") {
         warnings.push(`${file}: the speaker or speaker_group is empty in ${REFERENCE_FILE}, so it cannot be counted in a group`);

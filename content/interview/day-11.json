@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "track": "interview",
+  "day": 11,
+  "version": 1,
+  "status": "draft",
+  "source": "general_public_knowledge",
+  "title": { "roman": "Job chhorna, gap aur aage ke maqsad" },
+  "goal": "Explain honestly why you left a job or have a gap on your CV, and talk about your goals.",
+  "phrases": [
+    {
+      "id": "p1",
+      "text": "I left my last job because ...",
+      "meaning": { "roman": "Maine apni pichli job is liye chhori ke ..." },
+      "example": "I left my last job because I wanted to learn new skills."
+    },
+    {
+      "id": "p2",
+      "text": "During that time, I ...",
+      "meaning": { "roman": "Us dauran, maine ..." },
+      "example": "During that time, I finished an online course."
+    },
+    {
+      "id": "p3",
+      "text": "In five years, I would like to ...",
+      "meaning": { "roman": "Paanch saal mein, main ... karna chahunga/chahungi." },
+      "example": "In five years, I would like to lead a small team."
+    },
+    {
+      "id": "p4",
+      "text": "I am looking for a place where I can ...",
+      "meaning": { "roman": "Main aisi jagah dhoond raha/rahi hoon jahan main ... kar sakoon." },
+      "example": "I am looking for a place where I can learn and grow."
+    }
+  ],
+  "roleplay": [
+    {
+      "id": "t1",
+      "tutor_line": "Why did you leave your last job?",
+      "task": { "roman": "Sachchi wajah mohazzab andaaz mein batayein. Pichli company ya boss ki burai na karein." },
+      "model_answer": "I left my last job because I wanted to learn new skills. I am thankful for what I learned there.",
+      "target_phrases": ["p1"]
+    },
+    {
+      "id": "t2",
+      "tutor_line": "I see a gap of six months on your CV. What happened?",
+      "task": { "roman": "CV mein gap ki wajah aur is dauran jo aap ne kiya wo batayein." },
+      "model_answer": "I took six months to prepare for my next step. During that time, I finished an online course in computer skills.",
+      "target_phrases": ["p2"]
+    },
+    {
+      "id": "t3",
+      "tutor_line": "Where do you see yourself in five years?",
+      "task": { "roman": "Paanch saal ke apne maqsad batayein." },
+      "model_answer": "In five years, I would like to lead a small team. I want to become a person that others can ask for help.",
+      "target_phrases": ["p3"]
+    },
+    {
+      "id": "t4",
+      "tutor_line": "What kind of workplace are you looking for?",
+      "task": { "roman": "Batayein ke aap kaisi jagah par kaam karna chahte hain." },
+      "model_answer": "I am looking for a place where I can learn and grow. I also like a team that helps each other.",
+      "target_phrases": ["p4"]
+    },
+    {
+      "id": "t5",
+      "tutor_line": "What are you doing now to reach that goal?",
+      "task": { "roman": "Batayein ke is maqsad ke liye aap abhi kya kar rahe hain." },
+      "model_answer": "At the moment, I am improving my English and learning computer skills every day.",
+      "target_phrases": []
+    }
+  ],
+  "review_notes": [
+    "Turn 1 teaches learners not to criticise a past employer. In your experience, are there other reasons for leaving that learners find hard to say politely (for example, a low salary or a closed company)?"
+  ]
+}

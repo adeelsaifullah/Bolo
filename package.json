@@ -11,7 +11,9 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "check": "npm run lint && npm run typecheck && npm run test",
-    "voice-test": "tsx voice-test/cli.ts"
+    "voice-test": "tsx voice-test/cli.ts",
+    "content:check": "tsx content/cli.ts check",
+    "content:pilot": "tsx content/cli.ts pilot"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",

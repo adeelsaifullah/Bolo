@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "track": "interview",
+  "day": 10,
+  "version": 1,
+  "status": "draft",
+  "source": "general_public_knowledge",
+  "title": { "roman": "Mushkil halaat aur deadline" },
+  "goal": "Describe a difficult situation or a tight deadline, and how you stayed calm and solved it.",
+  "phrases": [
+    {
+      "id": "p1",
+      "text": "The situation was difficult because ...",
+      "meaning": { "roman": "Halaat mushkil the kyunke ..." },
+      "example": "The situation was difficult because we had only two days."
+    },
+    {
+      "id": "p2",
+      "text": "I stayed calm and ...",
+      "meaning": { "roman": "Maine sukoon rakha aur ..." },
+      "example": "I stayed calm and made a list of the tasks."
+    },
+    {
+      "id": "p3",
+      "text": "I asked for help from ...",
+      "meaning": { "roman": "Maine ... se madad maangi." },
+      "example": "I asked for help from a senior student."
+    },
+    {
+      "id": "p4",
+      "text": "In the end, ...",
+      "meaning": { "roman": "Aakhir mein, ..." },
+      "example": "In the end, I finished on time."
+    }
+  ],
+  "roleplay": [
+    {
+      "id": "t1",
+      "tutor_line": "Tell me about a difficult situation you faced.",
+      "task": { "roman": "Ek mushkil mauqa batayein jo aap ko pesh aaya." },
+      "model_answer": "The situation was difficult because I had two exams and a presentation in the same week.",
+      "target_phrases": ["p1"]
+    },
+    {
+      "id": "t2",
+      "tutor_line": "How did you feel, and what did you do first?",
+      "task": { "roman": "Batayein ke aap ne kaisa mehsoos kiya aur sab se pehle kya kiya." },
+      "model_answer": "I felt worried at first, but I stayed calm and made a list of everything I had to do.",
+      "target_phrases": ["p2"]
+    },
+    {
+      "id": "t3",
+      "tutor_line": "Did you ask anyone for help?",
+      "task": { "roman": "Batayein ke kya aap ne kisi se madad maangi." },
+      "model_answer": "Yes, I asked for help from my friend who was good at presentations. She gave me useful tips.",
+      "target_phrases": ["p3"]
+    },
+    {
+      "id": "t4",
+      "tutor_line": "How did it end?",
+      "task": { "roman": "Batayein ke aakhir mein kya hua." },
+      "model_answer": "In the end, I finished my exams and my presentation went well.",
+      "target_phrases": ["p4"]
+    },
+    {
+      "id": "t5",
+      "tutor_line": "How do you handle pressure at work?",
+      "task": { "roman": "Batayein ke kaam ke dabao mein aap kya karte hain." },
+      "model_answer": "I stay calm and make a list. I do the most important task first, and I ask for help when I need it.",
+      "target_phrases": ["p2", "p3"]
+    }
+  ],
+  "review_notes": []
+}

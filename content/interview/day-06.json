@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "track": "interview",
+  "day": 6,
+  "version": 1,
+  "status": "draft",
+  "source": "general_public_knowledge",
+  "title": { "roman": "Yeh job kyun?" },
+  "goal": "Say why you want this job and why you are a good choice, without exaggerating.",
+  "phrases": [
+    {
+      "id": "p1",
+      "text": "I am interested in this job because ...",
+      "meaning": { "roman": "Mujhe yeh job is liye pasand hai ke ..." },
+      "example": "I am interested in this job because I enjoy working with customers."
+    },
+    {
+      "id": "p2",
+      "text": "I think I can help the team by ...",
+      "meaning": { "roman": "Mera khayal hai ke main ... ke zariye team ki madad kar sakta/sakti hoon." },
+      "example": "I think I can help the team by learning fast and working carefully."
+    },
+    {
+      "id": "p3",
+      "text": "I want to grow in this field.",
+      "meaning": { "roman": "Main is field mein aage barhna chahta/chahti hoon." },
+      "example": "I want to grow in this field and learn from experienced people."
+    },
+    {
+      "id": "p4",
+      "text": "I would be happy to ...",
+      "meaning": { "roman": "Mujhe ... karne mein khushi hogi." },
+      "example": "I would be happy to start with any task you give me."
+    }
+  ],
+  "roleplay": [
+    {
+      "id": "t1",
+      "tutor_line": "Why do you want to work here?",
+      "task": { "roman": "Batayein ke aap yeh job kyun karna chahte hain." },
+      "model_answer": "I am interested in this job because I enjoy working with people. I also want to learn new skills.",
+      "target_phrases": ["p1"]
+    },
+    {
+      "id": "t2",
+      "tutor_line": "Why should we choose you for this job?",
+      "task": { "roman": "Batayein ke aap ek achhe umeedwar kyun hain: do wajahat dein, bina barha-chadha kar." },
+      "model_answer": "I think I can help the team by learning fast and working carefully. I am also always on time.",
+      "target_phrases": ["p2"]
+    },
+    {
+      "id": "t3",
+      "tutor_line": "What do you know about this kind of work?",
+      "task": { "roman": "Batayein ke aap is tarah ke kaam ke baare mein kya jaante hain." },
+      "model_answer": "I know that this work needs patience and good communication. I understand how important it is to listen carefully.",
+      "target_phrases": []
+    },
+    {
+      "id": "t4",
+      "tutor_line": "What would you like to learn in this job?",
+      "task": { "roman": "Batayein ke aap is job mein kya seekhna chahte hain." },
+      "model_answer": "I want to grow in this field. I would like to learn from experienced people and take more responsibility with time.",
+      "target_phrases": ["p3"]
+    },
+    {
+      "id": "t5",
+      "tutor_line": "If the work begins with a small task, how would you feel about that?",
+      "task": { "roman": "Agar shuru mein chhota kaam diya jaye to apna jawab batayein." },
+      "model_answer": "I would be happy to start with any task you give me. I always learn something new from small tasks.",
+      "target_phrases": ["p4"]
+    }
+  ],
+  "review_notes": [
+    "Turn 2 teaches a modest answer ('I think I can help'). Some interviewers want a stronger one. Is the tone right for your market?"
+  ]
+}

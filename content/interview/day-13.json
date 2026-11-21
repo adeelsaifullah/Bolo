@@ -1,0 +1,77 @@
+{
+  "schema_version": 1,
+  "track": "interview",
+  "day": 13,
+  "version": 1,
+  "status": "draft",
+  "source": "general_public_knowledge",
+  "title": { "roman": "Tankhwah ki baat aur apne sawal" },
+  "goal": "Talk about salary politely and ask the interviewer two good questions.",
+  "phrases": [
+    {
+      "id": "p1",
+      "text": "I expect a fair salary for this role.",
+      "meaning": { "roman": "Main is kaam ke liye munasib tankhwah ki umeed rakhta/rakhti hoon." },
+      "example": "Based on my skills, I expect a fair salary for this role."
+    },
+    {
+      "id": "p2",
+      "text": "I am open to discussion.",
+      "meaning": { "roman": "Main baat-cheet ke liye tayyar hoon." },
+      "example": "I am open to discussion if the role has good learning."
+    },
+    {
+      "id": "p3",
+      "text": "Could you tell me more about ...?",
+      "meaning": { "roman": "Kya aap mujhe ... ke baare mein mazeed bata sakte hain?" },
+      "example": "Could you tell me more about the training?"
+    },
+    {
+      "id": "p4",
+      "text": "What does a typical day look like in this role?",
+      "meaning": { "roman": "Is kaam mein ek aam din kaisa hota hai?" },
+      "example": "I am curious: what does a typical day look like in this role?"
+    }
+  ],
+  "roleplay": [
+    {
+      "id": "t1",
+      "tutor_line": "What are your salary expectations?",
+      "task": { "roman": "Mohazzab andaaz mein batayein ke aap munasib tankhwah chahte hain aur baat-cheet ke liye tayyar hain." },
+      "model_answer": "I expect a fair salary for this role. I am open to discussion.",
+      "target_phrases": ["p1", "p2"]
+    },
+    {
+      "id": "t2",
+      "tutor_line": "Our budget may be a little lower than that. What do you think?",
+      "task": { "roman": "Agar company ka budget kam ho to mohazzab jawab dein." },
+      "model_answer": "I understand. I am open to discussion if the role has good learning and a chance to grow.",
+      "target_phrases": ["p2"]
+    },
+    {
+      "id": "t3",
+      "tutor_line": "Do you have any questions for me?",
+      "task": { "roman": "Interviewer se training ke baare mein ek sawal poochein." },
+      "model_answer": "Yes, thank you. Could you tell me more about the training for new people?",
+      "target_phrases": ["p3"]
+    },
+    {
+      "id": "t4",
+      "tutor_line": "Of course. Do you have another question?",
+      "task": { "roman": "Ek aur sawal poochein: kaam ka aam din kaisa hota hai." },
+      "model_answer": "Yes. What does a typical day look like in this role?",
+      "target_phrases": ["p4"]
+    },
+    {
+      "id": "t5",
+      "tutor_line": "Thank you for your questions. We will finish here.",
+      "task": { "roman": "Shukriya ada karein aur khuda hafiz kahein." },
+      "model_answer": "Thank you very much for your time. I enjoyed our talk.",
+      "target_phrases": []
+    }
+  ],
+  "review_notes": [
+    "The lesson teaches a polite, general answer and uses no salary numbers. Do you want a version where the learner says a range?",
+    "Turn 2 (a lower budget) is a common negotiation moment. Is the answer too soft for your market?"
+  ]
+}

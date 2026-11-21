@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "track": "interview",
+  "day": 3,
+  "version": 1,
+  "status": "draft",
+  "source": "general_public_knowledge",
+  "title": { "roman": "Aap ka tajurba" },
+  "goal": "Talk about your work experience, or an internship or project if you have not had a job yet.",
+  "phrases": [
+    {
+      "id": "p1",
+      "text": "I have ... years of experience in ...",
+      "meaning": { "roman": "Mujhe ... mein ... saal ka tajurba hai." },
+      "example": "I have two years of experience in customer support."
+    },
+    {
+      "id": "p2",
+      "text": "I worked as a ... at ...",
+      "meaning": { "roman": "Maine ... mein ... ke taur par kaam kiya." },
+      "example": "I worked as a sales assistant at a shop in Karachi."
+    },
+    {
+      "id": "p3",
+      "text": "I did an internship at ...",
+      "meaning": { "roman": "Maine ... mein internship ki." },
+      "example": "I did an internship at a small marketing office."
+    },
+    {
+      "id": "p4",
+      "text": "My main responsibility was ...",
+      "meaning": { "roman": "Meri sab se bari zimmedari ... thi." },
+      "example": "My main responsibility was answering customer questions."
+    }
+  ],
+  "roleplay": [
+    {
+      "id": "t1",
+      "tutor_line": "Tell me about your work experience.",
+      "task": { "roman": "Apne tajurbe ke baare mein batayein: kitne saal aur kis kaam mein." },
+      "model_answer": "I have two years of experience in customer support. I worked as a support assistant at a small company in Karachi.",
+      "target_phrases": ["p1", "p2"]
+    },
+    {
+      "id": "t2",
+      "tutor_line": "What was your main responsibility in that job?",
+      "task": { "roman": "Batayein ke aap ki sab se bari zimmedari kya thi." },
+      "model_answer": "My main responsibility was answering customer questions and solving their problems. I also kept a record of every call.",
+      "target_phrases": ["p4"]
+    },
+    {
+      "id": "t3",
+      "tutor_line": "I see you have just finished your degree. Have you done any internship or project work?",
+      "task": { "roman": "Agar aap ne internship ya project kiya hai to uske baare mein batayein." },
+      "model_answer": "Yes, I did an internship at a small marketing office for three months. I helped the team prepare simple reports.",
+      "target_phrases": ["p3"]
+    },
+    {
+      "id": "t4",
+      "tutor_line": "What did you enjoy most about that work?",
+      "task": { "roman": "Batayein ke aap ko us kaam mein sab se zyada kya pasand aaya." },
+      "model_answer": "I enjoyed helping people. When a customer thanked me, I felt happy and proud of my work.",
+      "target_phrases": []
+    },
+    {
+      "id": "t5",
+      "tutor_line": "Why is this experience useful for this job?",
+      "task": { "roman": "Batayein ke aap ka tajurba is kaam ke liye kaise faidemand hai." },
+      "model_answer": "I have two years of experience in customer support, so I know how to speak politely and stay calm with customers.",
+      "target_phrases": ["p1"]
+    }
+  ],
+  "review_notes": [
+    "Turn 3 is for learners with no job experience (internship or project). Is that enough, or should the lesson have a longer path for complete beginners?"
+  ]
+}

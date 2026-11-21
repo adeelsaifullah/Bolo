@@ -37,7 +37,7 @@ Put these in `voice-test/recordings/`:
 
   - `speaker` is one person (the test needs at least 15 different speakers).
   - `speaker_group` is any label you choose, for example `female-karachi` or `male-lahore-beginner`. The 25% limit applies to each group on its own. Keep groups big enough (at least 3 recordings), or they say "few recordings".
-  - `prompt` (optional) is what the speaker was asked. Without it the test assumes "Answer a job-interview question in English."
+  - `prompt` (optional) is the question the speaker was asked, word for word. Without it the model is told the question was not recorded, and scores are less reliable.
   - **Write the transcript verbatim: exactly what was said, mistakes included** ("two year", not "two years"). Some speech-to-text tidies grammar, and the test cannot measure that if the reference is tidied too.
   - Punctuation, capital letters and "um/uh" do not matter. Write numbers as digits or words, either is fine up to 999; write longer numbers as the words you heard.
 
@@ -87,6 +87,8 @@ You only need to mark the combination you would actually use. Save the file (kee
 ## 5. Read the result
 
 `voice-test/results/<combination>/summary.md` has accuracy by speaker group, correction quality, cost per minute, speed, failed files, and ends with **pass or fail for G0 items 4 and 5**. A verdict of **PENDING** means something is still missing (usually unmarked corrections). `voice-test/results/comparison.md` puts every combination you have run side by side.
+
+The test uses `prompts/tutor-feedback.md`, the same feedback prompt the app will ship, so these numbers describe what users will really get. The results folder name ends with the prompt version (for example `prompt-tutor-feedback.v1`). If the prompt is ever changed and its version raised, the next run starts a new folder: results made with the old prompt stay where they are, and your marks on them are not touched.
 
 Files in the folder: `results.csv` (one row per recording, with transcripts), `corrections_review.csv` (your marks), `summary.md`, `summary.json`, and `files/` (saved per-recording results that make re-runs free).
 

@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "track": "interview",
+  "day": 7,
+  "version": 1,
+  "status": "draft",
+  "source": "general_public_knowledge",
+  "title": { "roman": "Mock interview 1" },
+  "goal": "Answer six common interview questions in a row, using what you practised on Days 1 to 6.",
+  "phrases": [
+    {
+      "id": "p1",
+      "text": "My name is ...",
+      "meaning": { "roman": "Mera naam ... hai." },
+      "example": "My name is Hina Raza and I am from Multan."
+    },
+    {
+      "id": "p2",
+      "text": "I have a degree in ...",
+      "meaning": { "roman": "Mere paas ... mein degree hai." },
+      "example": "I have a degree in business studies."
+    },
+    {
+      "id": "p3",
+      "text": "One of my strengths is ...",
+      "meaning": { "roman": "Meri ek khubi ... hai." },
+      "example": "One of my strengths is paying attention to details."
+    },
+    {
+      "id": "p4",
+      "text": "I am interested in this job because ...",
+      "meaning": { "roman": "Mujhe yeh job is liye pasand hai ke ..." },
+      "example": "I am interested in this job because I like working with numbers."
+    }
+  ],
+  "roleplay": [
+    {
+      "id": "t1",
+      "tutor_line": "Good morning. Please introduce yourself.",
+      "task": { "roman": "Salam karein aur apna taaruf karayein: naam aur shehr." },
+      "model_answer": "Good morning. My name is Hina Raza and I am from Multan. It is nice to meet you.",
+      "target_phrases": ["p1"]
+    },
+    {
+      "id": "t2",
+      "tutor_line": "Tell me about your education.",
+      "task": { "roman": "Apni taleem ke baare mein batayein." },
+      "model_answer": "I have a degree in business studies. I finished it last year at a university in Multan.",
+      "target_phrases": ["p2"]
+    },
+    {
+      "id": "t3",
+      "tutor_line": "What work or internship experience do you have?",
+      "task": { "roman": "Apne tajurbe ya internship ke baare mein batayein." },
+      "model_answer": "I did a three-month internship in an accounts office. My main responsibility was to enter invoices into the computer.",
+      "target_phrases": []
+    },
+    {
+      "id": "t4",
+      "tutor_line": "What is one of your strengths?",
+      "task": { "roman": "Apni ek khubi batayein aur misaal dein." },
+      "model_answer": "One of my strengths is paying attention to details. For example, I check my work twice before I submit it.",
+      "target_phrases": ["p3"]
+    },
+    {
+      "id": "t5",
+      "tutor_line": "What is one weakness, and how are you improving it?",
+      "task": { "roman": "Apni ek kamzori aur uski behtari ke liye apni koshish batayein." },
+      "model_answer": "One thing I am working on is speaking in front of groups. To improve, I practise speaking English every day.",
+      "target_phrases": []
+    },
+    {
+      "id": "t6",
+      "tutor_line": "Why are you interested in this job?",
+      "task": { "roman": "Batayein ke aap yeh job kyun karna chahte hain." },
+      "model_answer": "I am interested in this job because I like working with numbers. I want to learn and grow in this field.",
+      "target_phrases": ["p4"]
+    }
+  ],
+  "review_notes": [
+    "This day assumes the learner has done Days 1 to 6. Should a learner be allowed to start here, or must they finish the earlier days first?"
+  ]
+}

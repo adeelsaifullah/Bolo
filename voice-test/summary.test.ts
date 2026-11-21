@@ -213,7 +213,7 @@ describe("the written summary", () => {
     const other = build();
     other.meta.stt = { provider: "z", model: null };
     const text = renderComparison([build(), other]);
-    expect(text).toContain("| p (m) + q (n) |");
-    expect(text).toContain("| z + q (n) |");
+    expect(text).toContain("| p (m) + q (n) · v0 |");
+    expect(text).toContain("| z + q (n) · v0 |");
   });
 });

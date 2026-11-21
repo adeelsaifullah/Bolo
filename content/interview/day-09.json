@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "track": "interview",
+  "day": 9,
+  "version": 1,
+  "status": "draft",
+  "source": "general_public_knowledge",
+  "title": { "roman": "Team mein kaam" },
+  "goal": "Tell a short teamwork story: the situation, your task, what you did and the result, in simple past tense.",
+  "phrases": [
+    {
+      "id": "p1",
+      "text": "In my last project, ...",
+      "meaning": { "roman": "Mere pichle project mein, ..." },
+      "example": "In my last project, we had one week to finish a report."
+    },
+    {
+      "id": "p2",
+      "text": "My task was to ...",
+      "meaning": { "roman": "Meri zimmedari ... thi." },
+      "example": "My task was to collect the data."
+    },
+    {
+      "id": "p3",
+      "text": "I decided to ...",
+      "meaning": { "roman": "Maine faisla kiya ke main ... karoon." },
+      "example": "I decided to ask my teacher for more time."
+    },
+    {
+      "id": "p4",
+      "text": "As a result, ...",
+      "meaning": { "roman": "Natija yeh nikla ke ..." },
+      "example": "As a result, we finished two days early."
+    }
+  ],
+  "roleplay": [
+    {
+      "id": "t1",
+      "tutor_line": "Tell me about a time you worked in a team.",
+      "task": { "roman": "Ek team project ka mauqa batayein: kab tha aur kya tha." },
+      "model_answer": "In my last project at university, we had one week to finish a report. Our team had four people.",
+      "target_phrases": ["p1"]
+    },
+    {
+      "id": "t2",
+      "tutor_line": "What was your task in the team?",
+      "task": { "roman": "Batayein ke aap ki zimmedari kya thi." },
+      "model_answer": "My task was to collect the data and write the first part of the report.",
+      "target_phrases": ["p2"]
+    },
+    {
+      "id": "t3",
+      "tutor_line": "Was there any problem? What did you do?",
+      "task": { "roman": "Koi masla aaya? Aap ne kya kiya? Guzre hue waqt (past tense) mein batayein." },
+      "model_answer": "One member was ill, so we had less time. I decided to share his work with the team and I made a simple plan.",
+      "target_phrases": ["p3"]
+    },
+    {
+      "id": "t4",
+      "tutor_line": "What was the result?",
+      "task": { "roman": "Batayein ke natija kya nikla." },
+      "model_answer": "As a result, we finished the report one day early and our teacher liked our work.",
+      "target_phrases": ["p4"]
+    },
+    {
+      "id": "t5",
+      "tutor_line": "What did you learn from this experience?",
+      "task": { "roman": "Batayein ke is tajurbe se aap ne kya seekha." },
+      "model_answer": "I learned that clear talk helps a team. In my next project, I will speak up earlier when there is a problem.",
+      "target_phrases": []
+    }
+  ],
+  "review_notes": [
+    "The story follows Situation, Task, Action, Result in simple words. A learner with no group project may struggle. Should I add an alternative (a family or community event)?"
+  ]
+}

@@ -1,55 +1,54 @@
-import { createHash } from "node:crypto";
-import { readFile } from "node:fs/promises";
-import { basename, join } from "node:path";
 import { z } from "zod";
+import { SCRIPT_TEXT } from "@/content/pilot";
+import { loadPrompt } from "@/content/prompts";
 import type { LlmRequest } from "@/lib/llm";
-
-export const FEEDBACK_PROMPT_FILE = "prompts/voice-test-feedback.v0.md";
 
 export type ScriptChoice = "roman" | "urdu";
 
-const SCRIPT_TEXT: Record<ScriptChoice, string> = {
-  roman: "Roman Urdu (Urdu written in English letters), with common everyday spellings, the way people type on WhatsApp",
-  urdu: "Urdu script (اردو)",
-};
-
 export interface FeedbackPrompt {
-  /** The prompt file's name without the extension, for example "voice-test-feedback.v0". Saved with every result. */
+  /** For example "tutor-feedback.v1". Saved with every result, and part of the results folder's name. */
   version: string;
   template: string;
   /** Fingerprint of the file's text, so an edited prompt is never answered from the cache. */
   hash: string;
 }
 
+/** The tutor prompt the app will ship (prompts/tutor-feedback.md), so the voice test measures what users will really get. */
 export async function loadFeedbackPrompt(root: string): Promise<FeedbackPrompt> {
-  const path = join(root, FEEDBACK_PROMPT_FILE);
-  const template = await readFile(path, "utf8");
-  if (!template.includes("{{script}}")) throw new Error(`${FEEDBACK_PROMPT_FILE} must contain {{script}} where the Urdu script is named`);
-  return { version: basename(path, ".md"), template, hash: createHash("sha256").update(template).digest("hex") };
+  const prompt = await loadPrompt(root, "tutor-feedback");
+  if (!prompt.template.includes("{{script}}")) throw new Error("prompts/tutor-feedback.md must contain {{script}} where the Urdu script is named");
+  return { version: prompt.label, template: prompt.template, hash: prompt.hash };
 }
 
 export interface FeedbackInput {
   script: ScriptChoice;
-  task: string;
+  /** What the speaker was asked, if reference.csv says. Empty when it does not. */
+  question: string;
   transcript: string;
   audioSeconds: number;
 }
 
-/** The request for one answer. The LLM sees only text: the task, the transcript and the speaking speed. */
+/**
+ * The request for one answer, in the message format prompts/tutor-feedback.md describes.
+ * A recording has no lesson behind it, so the lesson lines say so. The LLM sees only text.
+ */
 export function buildFeedbackRequest(prompt: FeedbackPrompt, input: FeedbackInput): LlmRequest {
   const words = input.transcript.trim().split(/\s+/).filter(Boolean).length;
   const wordsPerMinute = Math.round(words / (input.audioSeconds / 60));
   return {
-    system: prompt.template.replace("{{script}}", SCRIPT_TEXT[input.script]),
+    system: prompt.template.replaceAll("{{script}}", SCRIPT_TEXT[input.script]),
     messages: [
       {
         role: "user",
         content: [
-          `Task: ${input.task}`,
+          "Lesson goal: General interview practice. This recording is not from a lesson.",
+          `Interviewer said: ${input.question || "(the question was not recorded)"}`,
+          "Learner's task: Answer the interviewer's question in English.",
+          "Example answer: none",
+          "Phrases from today's lesson: none",
           `Seconds spoken: ${Math.round(input.audioSeconds)}`,
           `Words per minute: ${wordsPerMinute}`,
-          "Text of the answer:",
-          input.transcript,
+          `Answer: ${input.transcript}`,
         ].join("\n"),
       },
     ],
