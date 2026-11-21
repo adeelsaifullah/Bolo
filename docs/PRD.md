@@ -1,6 +1,6 @@
 # PRD v2.0: Bolo, Urdu-first AI English speaking coach
 
-**Status:** Draft v2.0, 2026-11-21. Written from `docs/BUSINESS_PLAN.md` (v2.1), `docs/DECISIONS.md` and `CLAUDE.md`, because the original PRD v2 was not found. **Founder review is pending.**
+**Status:** v2.0, 2026-11-21. Written from `docs/BUSINESS_PLAN.md` (v2.1), `docs/DECISIONS.md` and `CLAUDE.md`, because the original PRD v2 was not found, then adjusted for Pakistani user habits (section 3.1). The founder approved the proposals on 2026-11-21; [PROPOSED] values stay easy to change in config.
 
 **Tags:**
 - **[PLAN]**: stated in the Business Plan v2.1, DECISIONS or CLAUDE.md. Do not change without the founder.
@@ -94,6 +94,46 @@ Review against the scenarios in the Business Plan: scale, hold or stop.
 5. Works on a cheap Android phone on 3G (section 14). [PLAN: 360 px, throttled 3G]
 6. WhatsApp is used only for onboarding, reminders and confirmations. [PLAN] In Phase 1 that means wa.me links and manual sends from the WhatsApp Business app, using texts kept in `strings.json`; no WhatsApp API. [PROPOSED]
 
+### 3.1 Pakistani user habits and what they change [PROPOSED, from desk research on 2026-11-21]
+
+Desk research only (public reports and news, linked below), not customer data. The Phase 0 pilot should confirm it. Each row says what the habit changes in this PRD.
+
+| # | Habit or pattern | What Bolo does | Changes |
+|---|---|---|---|
+| H1 | **Android and budget phones.** Android is about 92% of mobile web use in Pakistan [1]; Transsion (Tecno, Infinix) had 44% of smartphone unit sales in Q2 2025, and people keep phones longer [2]. | Test on an entry-level Tecno or Infinix phone, not only a mid-range one. Keep the PWA cache small (at most 5 MB) because storage is often full. | 14 |
+| H2 | **Cheap data, but app-locked bundles.** 1 GB costs about Rs 27 [3], but many users buy social bundles where the data only works for YouTube, Facebook and WhatsApp, so browsing outside them needs other data [4]. | Keep a full lesson under about 1.5 MB. Show the data a lesson uses. When uploads fail, explain in simple words that Bolo needs normal internet data, not only a WhatsApp or social package. | 6 (S07, S09), 14 |
+| H3 | **Video and WhatsApp everywhere.** About 100 million TikTok accounts and 96 million YouTube users; WhatsApp is also around 100 million [5]. | Users arrive from TikTok, Facebook and Instagram in-app browsers (S01 check stays first). Reminders, support and confirmations stay on WhatsApp. The Practice Report shares as an image to WhatsApp. | 6 (S01, S11) |
+| H4 | **Roman Urdu is how people type.** Roman Urdu is the most widely used way to write text messages, and students who are not comfortable in English write in it [6]. | Roman Urdu stays the default. Feedback uses common spellings, and any user text input accepts spelling variants. | 4.2 |
+| H5 | **Night is busy, and the internet is slowest then.** Internet slows down between 7 pm and 11 pm [7]. Planned peak power cuts run between 5 pm and 1 am [8], and city outages of 3-8 hours were reported in 2026 [9]. Many call-centre jobs, the target customer's goal, are US night shifts such as 6 pm-3 am [10]. | A "Bolo day" runs from 04:00 to 04:00 Pakistan time, so a lesson after midnight still counts for the evening before. Answers keep uploading after a drop or a power cut, and the lesson resumes where it stopped. The night approval window moves later. | 4.9, 5.3, 6 (S09), 8, 11 |
+| H6 | **Internet shutdowns happen.** Pakistan ranked second in the world for shutdown hours in 2024 (1,861 hours) [11]. | The admin can mark an outage day (national or by city). Streaks don't break on it, and plans can be extended by those days. | 4.9, 6 (A02-lite) |
+| H7 | **Two big wallets, plus Raast.** JazzCash has about 21 million and Easypaisa about 18 million monthly active users; JazzCash is stronger in rural areas and Easypaisa in cities [12]. Raast, the free instant system, had 48 million users in 2025 [13]. | Accept Easypaisa, JazzCash and a Raast transfer from any bank app, all into the business account. | 6 (S13), 8, 17 |
+| H8 | **People don't like to pay first.** Six in ten online shoppers prefer cash on delivery [14], and people avoid prepaying because they doubt they'll get what they paid for [15]. | Trust before payment stays: free test, free first lesson, refund promise on S12 and S13, founder's face, honest approval windows. | 5.7, 6 (S12, S13) |
+| H9 | **Wallet scams are common.** Fraudsters pose as Easypaisa and JazzCash staff [16] and steal OTPs and PINs [17], and fake payment-receipt apps exist [18]. | A screenshot is never enough to approve a payment; the transaction ID must match the wallet SMS or statement. The app says that Bolo never asks for a PIN or OTP and never sends payment links by SMS. Bolo's own OTP text warns not to share the code. Refunds go only to the wallet that paid. | 5.7, 6 (S05, S13), 8 |
+| H10 | **Shared phones, and women online.** In 2025, 53% of women and 58% of men used mobile internet, and 28% of women who use it rely on someone else's phone [19]. | The free first lesson is limited per OTP phone number, not per device. Two anonymous tests a day per device, not one. Nothing private appears in reminders. Sign-out is one tap on S14. No public leaderboard with names or photos. | 6 (S05, S14), 10 |
+| H11 | **Voice notes are normal.** WhatsApp voice messages are used widely, including by students [20]. | The record button works like a voice note: tap to start, tap to stop, with a timer. Short spoken answers feel familiar, which supports the daily loop. | 6 (S09) |
+
+Sources:
+[1] StatCounter, mobile OS share Pakistan: https://gs.statcounter.com/os-market-share/mobile-/pakistan
+[2] Business Recorder, Oct 2025: https://www.brecorder.com/news/40388277
+[3] ProPakistani, Jun 2025 (Economic Survey 2024-25): https://propakistani.pk/2025/06/09/pakistan-ranks-among-top-10-countries-for-cheapest-internet-in-the-world/
+[4] ProPakistani, Jazz Monthly YouTube & Social: https://propakistani.pk/packages/jazz-monthly-social/
+[5] ProPakistani, Nov 2026 (PTA chairman): https://propakistani.pk/2026/11/03/pakistan-tops-world-in-watching-youtube-videos-pta/ and TechJuice: https://www.techjuice.pk/?p=260775
+[6] Bilal et al., "Roman-txt", MobileHCI 2017: https://researchnow.flinders.edu.au/en/publications/roman-txt-forms-and-functions-of-roman-urdu-texting/
+[7] ProPakistani, Nov 2025: https://propakistani.pk/2025/11/04/heres-why-internet-slows-down-between-7pm-and-11pm/amp/
+[8] Profit, Apr 2026: https://profit.pakistantoday.com.pk/2026/04/14/5pm-1am-peak-load-shedding-govt-announces-up-to-2-25-hour-daily-outages/
+[9] Profit, Apr 2026: https://profit.pakistantoday.com.pk/2026/04/16/pakistan-faces-6500mw-power-shortfall-outages-hit-up-to-16-hours/
+[10] Indeed Pakistan, voice jobs: https://pk.indeed.com/Voice-jobs
+[11] Dawn, Dec 2024 (Top10VPN): https://www.dawn.com/news/amp/1881988
+[12] Dawn: https://www.dawn.com/news/amp/1931181
+[13] ProPakistani, May 2026 (SBP Financial Stability Review): https://propakistani.pk/2026/05/05/raast-transactions-hit-rs-50-trillion-as-pakistanis-switch-to-online-payments/amp/
+[14] Dawn, Dec 2025 (Gallup & Gilani Pakistan): https://www.dawn.com/news/1962597
+[15] The News: https://thenews.com.pk/print/940325-lack-of-trust-payment-options-major-bugs-in-digital-growth
+[16] Express Tribune, 2026: https://tribune.com.pk/story/2573226/rising-impersonation-scams-threaten-digital-economy
+[17] TechJuice: https://www.techjuice.pk/?p=208251
+[18] TechJuice, 2026 scam guide: https://www.techjuice.pk/guides/the-2026-survival-guide-how-to-spot-beat-online-shopping-scams-in-pakistan/
+[19] Profit, Jun 2026 (GSMA Mobile Gender Gap Report 2026): https://profit.pakistantoday.com.pk/2026/06/20/pakistans-mobile-internet-gender-gap-falls-to-8percent-but-phone-ownership-divide-remains-high
+[20] Ahmed, WhatsApp usage among students in Karachi, 2018: https://jict.ilmauniversity.edu.pk/arc/Vol12/i1p4
+
 ---
 
 ## 4. Daily lesson loop and scoring
@@ -104,7 +144,7 @@ Review against the scenarios in the Business Plan: scale, hold or stop.
 3. **Feedback:** after each turn and at the end of the lesson (section 4.2).
 
 ### 4.2 Feedback [PLAN]
-A 0-100 **Practice Score** and exactly **3 corrections**. Each correction shows what the learner said, a better way to say it, and a 1-2 line explanation in Urdu (in the learner's chosen script).
+A 0-100 **Practice Score** and exactly **3 corrections**. Each correction shows what the learner said, a better way to say it, and a 1-2 line explanation in Urdu (in the learner's chosen script). Roman Urdu uses common, everyday spellings (section 3.1, H4).
 
 ### 4.3 How the Practice Score is made [PROPOSED]
 The LLM scores each answer with a fixed rubric: fit to the task 40, grammar 25, use of the lesson's phrases and vocabulary 20, fluency 15 (from transcript timing: words per minute and long pauses). The lesson score is the average of its turns. Bands, with text in `strings.json`: 0-39, 40-69, 70-100. The rubric and prompt are versioned files in `/prompts`, and the prompt version is stored on every attempt.
@@ -127,7 +167,7 @@ Three short spoken prompts (introduce yourself; answer one simple interview ques
 Every screen that asks the user to do something has a play button that reads the instruction in Urdu. [PROPOSED] Fixed instruction audio is generated once (TTS or recorded by the founder) and cached, not generated per user. [VERIFY] which TTS voice sounds natural in Urdu.
 
 ### 4.9 Streak and badges [PLAN: Phase 1]
-[PROPOSED] A streak is the number of consecutive Pakistan-time calendar days with at least one completed lesson. Badges at 3, 7, 14 and 30 days and on finishing a track. No streak freezes or rewards in Phase 1.
+[PROPOSED] A **Bolo day** runs from 04:00 to 04:00 Pakistan time, so a lesson done after midnight counts for the evening before (section 3.1, H5). A streak is the number of consecutive Bolo days with at least one completed lesson. Badges at 3, 7, 14 and 30 days and on finishing a track. No streak freezes or rewards in Phase 1, except that a day the admin marks as an **outage day** (section 3.1, H6) never breaks a streak.
 
 ---
 
@@ -148,7 +188,7 @@ Every screen that asks the user to do something has a play button that reads the
 The minutes wallet and the day cap count **active time**: seconds of the learner's recorded answers plus seconds of tutor audio played, measured on the server. Reading the phrase screen does not count. The level test and the first lesson count against the free allowance only.
 
 ### 5.3 Caps [PLAN]
-- Day cap: 15 minutes of active time for B2C plans; 10 minutes for Team learners.
+- Day cap: 15 minutes of active time for B2C plans; 10 minutes for Team learners. The day cap resets at the start of each Bolo day (04:00 Pakistan time, section 4.9).
 - Each answer: at most 60 seconds. Each step: at most 2 retries.
 - Minutes wallet: a plan stops when its minutes or days run out, whichever comes first.
 - All caps are enforced on the server. When a cap is hit, the app says so plainly and shows when it resets or what the user can buy. No hidden overage.
@@ -174,7 +214,7 @@ Phase 1 scope, built only after a pilot is signed:
 
 ### 5.7 Refunds [PLAN: refund promise, refund button on S14; PROPOSED: the policy]
 - Full refund if asked within 3 days of approval and no more than 2 lessons have been used. Otherwise the founder decides case by case.
-- Refunds go back to the same wallet within 3 working days. Refund money is kept separate from other money. [PLAN]
+- Refunds go back to the same wallet within 3 working days, and only to the wallet or account that paid; never to a number given later by phone or message (section 3.1, H9). Refund money is kept separate from other money. [PLAN: kept separate]
 
 ---
 
@@ -188,23 +228,23 @@ All text comes from `config/strings.json`. Every screen works at 360 px, logs it
 | **S02** | Consent and microphone | Urdu consent text: what is recorded, that audio is processed by a foreign AI provider, deleted after 30 days, never used to train models, can be deleted any time, no CNIC asked. The consent version and time are stored (against the device for anonymous users) **before** any audio leaves the phone. Then the microphone permission, with help if it is denied. [PLAN] |
 | **S03** | Level test | Three spoken prompts, up to 60 seconds each, 3 minutes in total. Anonymous session. Device, IP and global caps and a bot check apply before the first upload (section 10). [PLAN] |
 | **S04** | Level test result | Practice Score, 3 corrections in Urdu, suggested track. Button to start the free first lesson, which leads to S05. Unclaimed test audio is deleted after 24 hours. [PLAN] |
-| **S05** | Sign in and phone | Sign in with Google [PROPOSED], then phone number with an OTP code [PLAN; VERIFY: OTP provider and cost]. One free first lesson per phone. The anonymous test is linked to the account, which claims its audio. Optional WhatsApp reminder opt-in. [PLAN: sign-in after the result] |
-| **S06** | Track and goal | Choose `interview` or `callcenter`. Optional interview date and daily reminder time. [PROPOSED] |
-| **S07** | Home | Today's lesson (day N of the track), streak, minutes left today and in the plan, plan and days left. Payment status banner (pending, provisional, rejected). **PWA install prompt** after the first completed lesson, **renewal card**, **day-28 offer**. For free users: the first lesson, then plans. [PLAN] |
+| **S05** | Sign in and phone | Sign in with Google [PROPOSED], then phone number with an OTP code [PLAN; VERIFY: OTP provider and cost]. One free first lesson per OTP-checked **phone number**, not per device, because phones are often shared (section 3.1, H10). The OTP message says not to share the code and that Bolo never calls to ask for it (H9). The anonymous test is linked to the account, which claims its audio. Optional WhatsApp reminder opt-in. [PLAN: sign-in after the result] |
+| **S06** | Track and goal | Choose `interview` or `callcenter`. Optional interview date and daily reminder time, offered as simple slots (morning, afternoon, late night) so night-shift users can pick after 23:00 (section 3.1, H5). [PROPOSED] |
+| **S07** | Home | Today's lesson (day N of the track) with about how much data it uses (H2), streak, minutes left today and in the plan, plan and days left. Payment status banner (pending, provisional, rejected). **PWA install prompt** after the first completed lesson, **renewal card**, **day-28 offer**. For free users: the first lesson, then plans. [PLAN] |
 | **S08** | Lesson: learn | 3-4 phrases with English text, Urdu meaning and tutor audio. [PLAN] |
-| **S09** | Lesson: roleplay | Tutor line (audio and text), record up to 60 seconds, re-record within 2 retries. Uploads retry on a weak network. Shows active minutes left today. [PLAN] |
+| **S09** | Lesson: roleplay | Tutor line (audio and text), record up to 60 seconds with a voice-note style button: tap to start, tap to stop, with a timer (H11). Re-record within 2 retries. Answers are kept on the phone until uploaded and keep retrying after a network drop or power cut; the lesson resumes at the same step, and a retry after a failed upload does not use up a retry (H5). If uploads keep failing, the screen explains that Bolo needs normal internet data, not only a WhatsApp or social package (H2). Shows active minutes left today. [PLAN: 60 s, 2 retries; PROPOSED: the rest] |
 | **S10** | Lesson: feedback | Practice Score, 3 corrections, play back own answer, "ghalat correction" report button, next turn or finish. [PLAN] |
-| **S11** | Progress and Practice Report | Days done, streak, badges, score trend, first and latest Practice Score, the 3 most repeated mistakes. Can be shared as an image [PROPOSED]. Called "Practice Report" only, with no wording that makes it look like an exam or employer result (CLAUDE.md copy rules). [PLAN] |
+| **S11** | Progress and Practice Report | Days done, streak, badges, score trend, first and latest Practice Score, the 3 most repeated mistakes. Can be shared as an image to WhatsApp or WhatsApp status [PROPOSED, H3]. Called "Practice Report" only, with no wording that makes it look like an exam or employer result (CLAUDE.md copy rules). [PLAN] |
 | **S12** | Plans | Sprint 14, Pro 30 (the user's price group), Founding Pro while places last. What each plan gives, the approval windows in plain words, the refund promise and the trust line. [PLAN] |
-| **S13** | Pay by wallet | Business-name account name and number, amount, steps. The user enters the transaction ID (required) and sender name, and can add a screenshot or paste the wallet SMS. Status: pending, provisional, approved, rejected. Rejected payments show the reason, a resubmit button and WhatsApp help. A duplicate transaction ID is refused at submit. [PLAN] |
-| **S14** | Account and help | Help and FAQ, WhatsApp support link, **refund request button**, delete my audio, delete my account, script choice, reminder settings, Urdu privacy policy, sign out. [PLAN] |
+| **S13** | Pay by wallet | Payment by Easypaisa, JazzCash or a Raast transfer from any bank app (H7) [VERIFY: Raast ID on the business account], all into the business-name account: account name and number, amount, steps. The user enters the transaction ID (required) and sender name, and can add a screenshot or paste the wallet SMS. The screen says that Bolo never asks for a PIN or OTP and never sends payment links by SMS (H9). Status: pending, provisional, approved, rejected. Rejected payments show the reason, a resubmit button and WhatsApp help. A duplicate transaction ID is refused at submit. [PLAN] |
+| **S14** | Account and help | Help and FAQ, WhatsApp support link, **refund request button**, delete my audio, delete my account, script choice, reminder settings, Urdu privacy policy, one-tap sign out for shared phones (H10). [PLAN] |
 
 ### Admin screens (routes check `ADMIN_EMAILS`, usable on a phone) [PLAN]
 
 | ID | Screen | Main contents and rules |
 |---|---|---|
 | **A01** | Payment approvals | Queue of submitted payments grouped by approval window. **SMS-paste matcher:** the admin pastes wallet SMS texts, and the app reads amount, transaction ID and sender and matches them to pending payments [VERIFY: real SMS formats]. **Batch approve**, reject with a reason, duplicate transaction IDs flagged, provisional users listed. Today's approval count, with an alert above 15 a day. |
-| **A02-lite** | Support | User lookup by email or the last 4 digits of the phone (the phone is shown masked), extend or revoke a plan, mark a refund paid with the wallet reference, support requests from S14, wrong-correction reports, Team learners and the weekly CSV export (section 5.4). |
+| **A02-lite** | Support | User lookup by email or the last 4 digits of the phone (the phone is shown masked), extend or revoke a plan, mark a refund paid with the wallet reference, support requests from S14, wrong-correction reports, Team learners and the weekly CSV export (section 5.4). **Outage days:** mark a date as an outage day, nationally or for chosen cities; streaks don't break on it, and the admin can extend affected plans by those days (H6) [PROPOSED]. |
 
 ---
 
@@ -222,11 +262,11 @@ All text comes from `config/strings.json`. Every screen works at 360 px, logs it
 
 **States:** `pending` → `provisional` → `approved` or `rejected`; later `refunded`. [PLAN: provisional access, rejected flow, refund]
 
-**Approval windows [PROPOSED]:** every day at 08:00-08:30, 13:00-13:30 and 21:00-22:30 Pakistan time. S12 and S13 say in plain words that a payment is approved in the next window. These are the honest windows the Business Plan asks for. [PLAN]
+**Approval windows [PROPOSED]:** every day at 08:00-08:30, 13:00-13:30 and 22:00-23:30 Pakistan time. The night window is late because many users are active at night (section 3.1, H5). S12 and S13 say in plain words that a payment is approved in the next window. These are the honest windows the Business Plan asks for. [PLAN]
 
 **Provisional access [PROPOSED]:** after a user submits a well-formed, unused transaction ID, they can use the plan for up to 24 hours or 15 active minutes, whichever comes first, until the payment is approved. If rejected, access stops and a message gives the reason.
 
-**Screenshots [PROPOSED]:** stored in a private bucket, deleted 90 days after the decision, never logged.
+**Proof of payment [PROPOSED]:** a screenshot is never enough to approve, because fake receipt apps exist (H9); the transaction ID must match the wallet SMS or statement (A01 matcher). Screenshots are stored in a private bucket, deleted 90 days after the decision, and never logged.
 
 **Tests before the first paid user [PLAN]:** a real PKR 499 payment, a rejected payment, a refund and a duplicate transaction ID.
 
@@ -251,7 +291,7 @@ All text comes from `config/strings.json`. Every screen works at 360 px, logs it
 
 | Control | Starting value |
 |---|---|
-| Anonymous level tests per device per day | 1 |
+| Anonymous level tests per device per day | 2 (phones are often shared, section 3.1, H10) |
 | Anonymous level tests per IP per day | 10 (mobile networks share IPs, so this stays loose) |
 | Anonymous level tests in total per day | 150 |
 | Free first lessons in total per day | 40 [PLAN] |
@@ -260,13 +300,13 @@ All text comes from `config/strings.json`. Every screen works at 360 px, logs it
 | Daily free-AI budget breaker | PKR 1,500 a day. When it trips, the free test and free lesson show "aaj ki free jagah khatam, kal aayen" with a WhatsApp waitlist link. Paying users are not affected. |
 | Rate limits | 30 requests a minute per user; 6 AI calls a minute per user |
 
-At the starting values, free usage costs at most about PKR 1,300 a day (150 tests x 3 minutes plus 40 lessons x 10 minutes, at PKR 1.5 a minute), under the breaker.
+At the starting values, free usage costs at most about PKR 1,300 a day (150 tests x 3 minutes plus 40 lessons x 10 minutes, at PKR 1.5 a minute), under the breaker. Daily counters reset at the start of the Bolo day (04:00).
 
 ---
 
 ## 11. Events and metrics
 
-**Rules:** events go to a server-side `events` table (name, user ID or anonymous ID, time, properties). Properties never contain audio, transcripts, phone numbers or screenshots. Day-based metrics use Pakistan time. [PLAN: log events; PROPOSED: the list]
+**Rules:** events go to a server-side `events` table (name, user ID or anonymous ID, time, properties). Properties never contain audio, transcripts, phone numbers or screenshots. Day-based metrics use the Bolo day (04:00 to 04:00 Pakistan time, section 4.9). [PLAN: log events; PROPOSED: the list]
 
 | Event | When | Main properties |
 |---|---|---|
@@ -348,8 +388,8 @@ Row-level security on every user table: a user reads and writes only their own r
 
 ## 14. Non-functional requirements and testing
 
-- **Phone and network [PLAN]:** tested on a real low-end Android phone at 360 px on throttled 3G.
-- **Budgets [PROPOSED]:** lesson screens load at most about 250 KB of compressed JavaScript; audio is Opus/WebM at about 16-24 kbps (a 60-second answer is about 150 KB); feedback appears within 8 seconds on 4G and 15 seconds on 3G at the median.
+- **Phone and network [PLAN]:** tested on a real low-end Android phone at 360 px on throttled 3G. [PROPOSED] The test phone is an entry-level Tecno or Infinix (section 3.1, H1).
+- **Budgets [PROPOSED]:** a full lesson uses at most about 1.5 MB of data, including tutor audio and uploads (H2); the PWA cache stays under 5 MB (H1); lesson screens load at most about 250 KB of compressed JavaScript; audio is Opus/WebM at about 16-24 kbps (a 60-second answer is about 150 KB); feedback appears within 8 seconds on 4G and 15 seconds on 3G at the median.
 - **Browsers [PROPOSED]:** Android Chrome and Samsung Internet (recent versions) fully supported; iOS Safari best effort.
 - **Language:** Urdu script screens are right-to-left. Large tap targets. Spoken instructions on action screens. [PLAN: spoken instructions]
 - **Before the first paid user [PLAN]:** Pro database plan live, provider spend limits and auto-recharge on, uptime alert working, a 50-user load test, the four payment tests in section 8.
@@ -391,13 +431,17 @@ These fill the values that are still `null` in the repo's config. Keys are as th
 **`config/app.json`**
 | Key | Value | Source |
 |---|---|---|
-| `limits.anonymous_test.per_device_per_day` | 1 | section 10 [PROPOSED] |
+| `limits.anonymous_test.per_device_per_day` | 2 | section 10 [PROPOSED] |
 | `limits.anonymous_test.per_ip_per_day` | 10 | section 10 [PROPOSED] |
 | `limits.anonymous_test.global_per_day` | 150 | section 10 [PROPOSED] |
 | `limits.rate_limit_requests_per_minute` | 30 (add `limits.ai_calls_per_minute`: 6) | section 10 [PROPOSED] |
 | `limits.daily_free_ai_budget_pkr` | 1500 | section 10 [PROPOSED] |
 | `consent.version` | `"ur-v1-2026-11"` | section 9 [PROPOSED] |
-| `payments.approval_window` | Replace with a list `payments.approval_windows`: 08:00-08:30, 13:00-13:30, 21:00-22:30 (Pakistan time); a payment is decided in the next window | section 8 [PROPOSED] |
+| `payments.approval_window` | Replace with a list `payments.approval_windows`: 08:00-08:30, 13:00-13:30, 22:00-23:30 (Pakistan time); a payment is decided in the next window | section 8 [PROPOSED] |
+| new: `app.day_starts_at_hour_pkt` | 4 (the Bolo day) | section 4.9 [PROPOSED] |
+| new: `limits.lesson_data_budget_mb` | 1.5 | section 14 [PROPOSED] |
+| new: `limits.pwa_cache_max_mb` | 5 | section 14 [PROPOSED] |
+| new: `payments.methods` | `easypaisa`, `jazzcash`, `raast` | section 8 [PROPOSED; VERIFY: Raast ID] |
 
 **`config/plans.json`**
 | Key | Value | Source |
@@ -417,7 +461,8 @@ These fill the values that are still `null` in the repo's config. Keys are as th
 |---|---|
 | OTP provider and cost per SMS | S05 |
 | A free bot-check service | S03 |
-| Real wallet SMS formats for the matcher | A01 |
+| Real wallet SMS formats for the matcher (Easypaisa, JazzCash and Raast) | A01 |
+| Raast ID or IBAN on the business account | S13 |
 | Business-name wallet account and NTN | S13, soft launch |
 | Speech-to-text, LLM and TTS choice, price and data terms | P0-2 |
 | Urdu TTS voice quality, or founder-recorded audio | S08, spoken instructions |
