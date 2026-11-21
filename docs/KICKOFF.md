@@ -20,7 +20,7 @@ The Business Plan approves **Phase 0 only** first. Phase 1 screens start after G
 |---|---|---|---|
 | P0-1 | 0 | Foundation: project setup, config loader, provider interfaces, cost logger | **Done** (commit e86a68b: 117 tests, lint, typecheck, build pass) |
 | P0-1b | 0 | Fill the open config values from PRD section 16 (no screens, no new features) | **Done** (162 tests, lint, typecheck, build pass) |
-| P0-2 | 0 | Voice test harness: 40 recordings, transcript accuracy, correction quality, latency, real AI cost per minute | Yes, for providers and target |
+| P0-2 | 0 | Voice test harness: 40 recordings, transcript accuracy, correction quality, latency, real AI cost per minute | **Built** (284 tests, lint, typecheck pass). The real run is yours, on your laptop: steps in `voice-test/README.md` |
 | P0-3 | 0 | Lesson format, tutor prompt for the WhatsApp pilot, interview Days 1-14 drafts | Yes, for lesson structure |
 | P1-xx | 1 | One screen or one pipeline step per session, in the PRD's order | Yes |
 
