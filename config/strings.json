@@ -1,0 +1,28 @@
+{
+  "ur-Latn": {
+    "app": {
+      "name": "Bolo",
+      "description": "Roz ki English bolne ki practice, Urdu mein samjhaye gaye ghaltiyon ke saath."
+    },
+    "common": {
+      "loading": "Load ho raha hai...",
+      "retry": "Dobara koshish karein"
+    },
+    "errors": {
+      "generic": "Kuch ghalat ho gaya. Dobara koshish karein."
+    }
+  },
+  "ur": {
+    "app": {
+      "name": "بولو",
+      "description": "روزانہ انگریزی بولنے کی مشق، غلطیوں کی اردو میں وضاحت کے ساتھ۔"
+    },
+    "common": {
+      "loading": "لوڈ ہو رہا ہے...",
+      "retry": "دوبارہ کوشش کریں"
+    },
+    "errors": {
+      "generic": "کچھ غلط ہو گیا۔ دوبارہ کوشش کریں۔"
+    }
+  }
+}

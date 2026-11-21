@@ -1,0 +1,51 @@
+{
+  "app": {
+    "default_locale": "ur-Latn",
+    "current_phase": 1,
+    "tracks": ["interview", "callcenter"]
+  },
+  "locales": {
+    "ur-Latn": { "dir": "ltr" },
+    "ur": { "dir": "rtl" }
+  },
+  "pwa": {
+    "theme_color": "#0f766e",
+    "background_color": "#ffffff"
+  },
+  "limits": {
+    "day_cap_minutes": 15,
+    "answer_max_seconds": 60,
+    "retries_per_step": 2,
+    "free_first_lessons_per_day": 40,
+    "anonymous_test": {
+      "per_device_per_day": null,
+      "per_ip_per_day": null,
+      "global_per_day": null
+    },
+    "rate_limit_requests_per_minute": null,
+    "daily_free_ai_budget_pkr": null
+  },
+  "retention": {
+    "audio_days": 30,
+    "unclaimed_anonymous_audio_hours": 24
+  },
+  "consent": {
+    "version": null
+  },
+  "payments": {
+    "approval_window": { "sla_minutes": null, "start_hour": null, "end_hour": null },
+    "approvals_per_day_warning": 15
+  },
+  "economics": {
+    "ai_cost_pkr_per_active_minute_planning": 1.5
+  },
+  "gates": {
+    "g1": {
+      "min_cumulative_unique_payers": 45,
+      "min_day7_retention": 0.25,
+      "stop_below_day7_retention": 0.2,
+      "max_ai_cost_per_payer_pkr": 350
+    },
+    "g2": { "min_contribution_to_cac_ratio": 2 }
+  }
+}
