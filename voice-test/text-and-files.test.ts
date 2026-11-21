@@ -105,16 +105,16 @@ describe("loading the recordings folder", () => {
       "rec_3.wav": expect.stringContaining("no row in consent.csv"),
       "voice.amr": expect.stringContaining("not supported"),
     });
-    expect(items[0]).toMatchObject({ consentVersion: "pilot-v1", reference: { speaker: "s1", group: "g1", text: "hello there", task: "Introduce yourself" } });
+    expect(items[0]).toMatchObject({ consentVersion: "pilot-v1", reference: { speaker: "s1", group: "g1", text: "hello there", question: "Introduce yourself" } });
     expect(items[1]?.reference).toBeNull();
     expect(warnings.join("\n")).toContain("rec_4.wav: no row in reference.csv");
     expect(warnings.join("\n")).toContain('lists "ghost.wav"');
     expect(warnings.join("\n")).toContain('lists "ghost2.wav"');
   });
 
-  it("uses a default task when reference.csv does not say what was asked", async () => {
+  it("leaves the question empty when reference.csv does not say what was asked", async () => {
     const dir = await makeRecordingsDir({ "a.wav": 1 }, "file,consent_version,date\na.wav,v1,2026-11-20\n", "file,speaker,speaker_group,reference_transcript\na.wav,s1,g1,hello\n");
-    expect((await loadInputs(dir)).items[0]?.reference?.task).toMatch(/job-interview/);
+    expect((await loadInputs(dir)).items[0]?.reference?.question).toBe("");
   });
 
   it("stops with a clear message when a file is missing, a column is missing or a row repeats", async () => {

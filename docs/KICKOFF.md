@@ -20,8 +20,8 @@ The Business Plan approves **Phase 0 only** first. Phase 1 screens start after G
 |---|---|---|---|
 | P0-1 | 0 | Foundation: project setup, config loader, provider interfaces, cost logger | **Done** (commit e86a68b: 117 tests, lint, typecheck, build pass) |
 | P0-1b | 0 | Fill the open config values from PRD section 16 (no screens, no new features) | **Done** (162 tests, lint, typecheck, build pass) |
-| P0-2 | 0 | Voice test harness: 40 recordings, transcript accuracy, correction quality, latency, real AI cost per minute | **Built** (284 tests, lint, typecheck pass). The real run is yours, on your laptop: steps in `voice-test/README.md` |
-| P0-3 | 0 | Lesson format, tutor prompt for the WhatsApp pilot, interview Days 1-14 drafts | Yes, for lesson structure |
+| P0-2 | 0 | Voice test harness: 40 recordings, transcript accuracy, correction quality, latency, real AI cost per minute | **Built** (lint, typecheck and tests pass). The real run is yours, on your laptop: steps in `voice-test/README.md`. Since P0-3 it tests `prompts/tutor-feedback.md` |
+| P0-3 | 0 | Lesson format, tutor prompt for the WhatsApp pilot, interview Days 1-14 drafts | **Built** (all 14 lessons are `draft`). Your part: review each lesson, set `approved`. Guide: `content/README.md` |
 | P1-xx | 1 | One screen or one pipeline step per session, in the PRD's order | Yes |
 
 ### Phase 0 items only the founder can do (PRD section 2; Business Plan sections 11 and 14)
@@ -29,6 +29,7 @@ The Business Plan approves **Phase 0 only** first. Phase 1 screens start after G
 - [ ] Read the employment contract and get written employer consent for side work
 - [ ] Business-name payment account, NTN, and one real PKR 499 test payment
 - [ ] Draft the Urdu privacy policy
+- [ ] Review the 14 interview lessons (`content/README.md`), answer the review notes and set each to `approved` before you run them in the pilot
 - [ ] Written BEOE opinion (needed before any Gulf track, Phase 3)
 - [ ] Check Meta ad rules for the landing page and ads
 - [ ] Collect 40 voice recordings for P0-2 from at least 15 different speakers (pilot users with consent), mixing men and women, cities and levels. Each needs a stored consent version and a reference transcript that you write

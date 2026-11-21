@@ -370,7 +370,7 @@ export function renderComparison(summaries: readonly SummaryJson[]): string {
     const c = stats.corrections;
     const marked = c.right + c.wrong;
     return [
-      `${label(meta.stt)} + ${label(meta.llm)}`,
+      `${label(meta.stt)} + ${label(meta.llm)} · ${meta.promptVersion}`,
       String(stats.recordingsProcessed),
       stats.wer.overall === null ? "n/a" : pct(stats.wer.overall),
       stats.wer.groups[0] ? `${stats.wer.groups[0].group} ${pct(stats.wer.groups[0].wer)}` : "n/a",

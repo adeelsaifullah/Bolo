@@ -68,9 +68,13 @@ const sha = (...parts: (string | Uint8Array | null | undefined)[]): string => {
 
 const slug = (text: string): string => text.toLowerCase().replace(/[^a-z0-9.]+/g, "-").replace(/^-+|-+$/g, "");
 
-/** Folder name for one provider combination, for example "stt-deepgram-nova-3__llm-openai-gpt-5.4-mini". */
-export function comboName(stt: Pick<SttProvider, "name" | "model">, llm: Pick<LlmProvider, "name" | "model">): string {
-  return `stt-${slug([stt.name, stt.model].filter(Boolean).join("-"))}__llm-${slug([llm.name, llm.model].filter(Boolean).join("-"))}`;
+/**
+ * Folder name for one provider combination and one prompt version, for example
+ * "stt-deepgram-nova-3__llm-openai-gpt-5.4-mini__prompt-tutor-feedback.v1". A new prompt version gets a new folder,
+ * so results made with different prompts never mix.
+ */
+export function comboName(stt: Pick<SttProvider, "name" | "model">, llm: Pick<LlmProvider, "name" | "model">, promptVersion: string): string {
+  return `stt-${slug([stt.name, stt.model].filter(Boolean).join("-"))}__llm-${slug([llm.name, llm.model].filter(Boolean).join("-"))}__prompt-${slug(promptVersion)}`;
 }
 
 /** A message that is safe to print and save. Unknown errors are not described, in case they carry content. */
@@ -193,8 +197,8 @@ async function processFile(item: InputItem, previous: FileResult | null, ctx: Co
   }
 
   // --- feedback ---
-  const task = item.reference?.task ?? "";
-  const feedbackKey = sha(sttKey, stt.transcript, deps.llm.name, deps.llm.model, ctx.prompt.hash, ctx.script, task);
+  const question = item.reference?.question ?? "";
+  const feedbackKey = sha(sttKey, stt.transcript, deps.llm.name, deps.llm.model, ctx.prompt.hash, ctx.script, question);
   base.keys.feedback = feedbackKey;
   if (previous && previous.keys.feedback === feedbackKey && previous.feedback?.valid && previous.llm) {
     const price = deps.llm.pricing;
@@ -206,7 +210,7 @@ async function processFile(item: InputItem, previous: FileResult | null, ctx: Co
   if (stt.transcript === "") {
     return { result: { ...base, status: "feedback_failed", feedback: failedFeedback("empty transcript, feedback skipped") }, calledProvider };
   }
-  const request = buildFeedbackRequest(ctx.prompt, { script: ctx.script, task: task || "Answer a job-interview question in English.", transcript: stt.transcript, audioSeconds });
+  const request = buildFeedbackRequest(ctx.prompt, { script: ctx.script, question, transcript: stt.transcript, audioSeconds });
   try {
     const attempt = await withRetries(ctx, () => deps.llm.complete(request));
     calledProvider = true;
@@ -280,7 +284,7 @@ export async function runVoiceTest(options: RunOptions, deps: RunDeps): Promise<
 
   const prompt = await loadFeedbackPrompt(options.promptRoot);
   const ctx: Context = { deps, prompt, script: options.script, ...ctxBase };
-  const combo = comboName(deps.stt, deps.llm);
+  const combo = comboName(deps.stt, deps.llm, prompt.version);
   const comboDir = join(options.resultsRoot, combo);
   await mkdir(join(comboDir, "files"), { recursive: true });
 
