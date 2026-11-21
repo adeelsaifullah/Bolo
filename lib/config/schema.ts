@@ -148,6 +148,21 @@ export const appSchema = z.strictObject({
     ai_cost_pkr_per_active_minute_planning: num,
   }),
   gates: z.strictObject({
+    /**
+     * Only the G0 numbers the voice test (P0-2) checks: PRD 2 items 4 and 5 and the sample size.
+     * Demand, use and repeat are measured in the WhatsApp pilot, not in code.
+     */
+    g0: z.strictObject({
+      voice_test_min_recordings: count,
+      voice_test_min_speakers: count,
+      /** Share of corrections the founder judges right, 0 to 1. */
+      min_corrections_judged_right: z.number().min(0).max(1).nullable(),
+      /** Word error rate, 0 to 1, over all recordings. */
+      max_wer_overall: z.number().min(0).max(1).nullable(),
+      /** Word error rate, 0 to 1, for every speaker group on its own. */
+      max_wer_per_speaker_group: z.number().min(0).max(1).nullable(),
+      max_ai_cost_pkr_per_active_minute: num,
+    }),
     g1: z.strictObject({
       min_cumulative_unique_payers: count,
       min_day7_retention: z.number().min(0).max(1).nullable(),

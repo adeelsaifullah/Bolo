@@ -49,6 +49,14 @@
     "ai_cost_pkr_per_active_minute_planning": 1.5
   },
   "gates": {
+    "g0": {
+      "voice_test_min_recordings": 40,
+      "voice_test_min_speakers": 15,
+      "min_corrections_judged_right": 0.9,
+      "max_wer_overall": 0.2,
+      "max_wer_per_speaker_group": 0.25,
+      "max_ai_cost_pkr_per_active_minute": 2
+    },
     "g1": {
       "min_cumulative_unique_payers": 45,
       "min_day7_retention": 0.25,
