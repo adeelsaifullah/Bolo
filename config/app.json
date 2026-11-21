@@ -2,7 +2,8 @@
   "app": {
     "default_locale": "ur-Latn",
     "current_phase": 1,
-    "tracks": ["interview", "callcenter"]
+    "tracks": ["interview", "callcenter"],
+    "day_starts_at_hour_pkt": 4
   },
   "locales": {
     "ur-Latn": { "dir": "ltr" },
@@ -18,22 +19,30 @@
     "retries_per_step": 2,
     "free_first_lessons_per_day": 40,
     "anonymous_test": {
-      "per_device_per_day": null,
-      "per_ip_per_day": null,
-      "global_per_day": null
+      "per_device_per_day": 2,
+      "per_ip_per_day": 10,
+      "global_per_day": 150
     },
-    "rate_limit_requests_per_minute": null,
-    "daily_free_ai_budget_pkr": null
+    "rate_limit_requests_per_minute": 30,
+    "ai_calls_per_minute": 6,
+    "daily_free_ai_budget_pkr": 1500,
+    "lesson_data_budget_mb": 1.5,
+    "pwa_cache_max_mb": 5
   },
   "retention": {
     "audio_days": 30,
     "unclaimed_anonymous_audio_hours": 24
   },
   "consent": {
-    "version": null
+    "version": "ur-v1-2026-11"
   },
   "payments": {
-    "approval_window": { "sla_minutes": null, "start_hour": null, "end_hour": null },
+    "methods": ["easypaisa", "jazzcash", "raast"],
+    "approval_windows": [
+      { "start": "08:00", "end": "08:30" },
+      { "start": "13:00", "end": "13:30" },
+      { "start": "22:00", "end": "23:30" }
+    ],
     "approvals_per_day_warning": 15
   },
   "economics": {

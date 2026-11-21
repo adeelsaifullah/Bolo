@@ -16,7 +16,7 @@
       "price_pkr": 499,
       "duration_days": 14,
       "minutes": 140,
-      "day_cap_minutes": null
+      "day_cap_minutes": 15
     },
     "pro_30": {
       "phase": 1,
@@ -24,7 +24,7 @@
       "price_pkr": 799,
       "duration_days": 30,
       "minutes": 300,
-      "day_cap_minutes": null,
+      "day_cap_minutes": 15,
       "price_test": { "alt_price_pkr": 999, "share_of_new_users": 0.3 }
     },
     "founding_pro": {
@@ -33,7 +33,7 @@
       "price_pkr": 599,
       "duration_days": 30,
       "minutes": 300,
-      "day_cap_minutes": null,
+      "day_cap_minutes": 15,
       "limited_to_first_users": 100,
       "renewal_price_pkr": null
     },
@@ -43,18 +43,18 @@
       "price_pkr": 299,
       "duration_days": 7,
       "minutes": 70,
-      "day_cap_minutes": null
+      "day_cap_minutes": 15
     },
     "plus_1499": {
       "phase": 3,
-      "payment_mode": null,
+      "payment_mode": "gateway_autopay",
       "price_pkr": 1499,
-      "duration_days": null,
-      "minutes": null,
-      "day_cap_minutes": null
+      "duration_days": 30,
+      "minutes": 300,
+      "day_cap_minutes": 15
     },
     "team": {
-      "phase": null,
+      "phase": 1,
       "payment_mode": "invoice",
       "price_pkr": 600,
       "duration_days": 30,

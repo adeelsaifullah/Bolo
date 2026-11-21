@@ -19,19 +19,36 @@ The Business Plan approves **Phase 0 only** first. Phase 1 screens start after G
 | Session | Phase | What | Needs PRD? |
 |---|---|---|---|
 | P0-1 | 0 | Foundation: project setup, config loader, provider interfaces, cost logger | **Done** (commit e86a68b: 117 tests, lint, typecheck, build pass) |
-| P0-2 | 0 | Voice test harness: 40 recordings, accuracy and real AI cost per minute | Yes, for providers and target |
+| P0-1b | 0 | Fill the open config values from PRD section 16 (no screens, no new features) | **Done** (162 tests, lint, typecheck, build pass) |
+| P0-2 | 0 | Voice test harness: 40 recordings, transcript accuracy, correction quality, latency, real AI cost per minute | Yes, for providers and target |
 | P0-3 | 0 | Lesson format, tutor prompt for the WhatsApp pilot, interview Days 1-14 drafts | Yes, for lesson structure |
 | P1-xx | 1 | One screen or one pipeline step per session, in the PRD's order | Yes |
 
-### Phase 0 items only the founder can do (Business Plan sections 11 and 14)
+### Phase 0 items only the founder can do (PRD section 2; Business Plan sections 11 and 14)
 
 - [ ] Read the employment contract and get written employer consent for side work
 - [ ] Business-name payment account, NTN, and one real PKR 499 test payment
+- [ ] Draft the Urdu privacy policy
 - [ ] Written BEOE opinion (needed before any Gulf track, Phase 3)
 - [ ] Check Meta ad rules for the landing page and ads
-- [ ] Collect 40 voice recordings, each with a stored consent version, for P0-2
-- [ ] Run the 20-user, 14-day WhatsApp pilot and check the G0 pass rule
+- [ ] Collect 40 voice recordings for P0-2 from at least 15 different speakers (pilot users with consent), mixing men and women, cities and levels. Each needs a stored consent version and a reference transcript that you write
+- [ ] Run the 20-user WhatsApp pilot (20 users x PKR 499 for 14 days, run with Claude chat) and check the G0 pass rule below
 - [ ] When G0 passes, tick this box and tell the next Claude Code session that Phase 1 can start
+
+### G0 pass rule (PRD section 2)
+
+All six must pass before Phase 1 starts. These are the PRD's proposed values. Keep this table in step with PRD section 2; if they differ, stop and ask.
+
+| # | Test | Pass when |
+|---|---|---|
+| 1 | Demand | At least 15 of the 20 pilot seats are paid at PKR 499 within 21 days of opening |
+| 2 | Use | At least 50% of paid pilot users complete 10 or more of the 14 days |
+| 3 | Repeat | At least 40% of paid pilot users pay for a second pack (Sprint or Pro) at the list price |
+| 4 | Feedback quality | At least 90% of corrections are judged right by you, and transcript word error rate (WER) is at most 20% overall and at most 25% for any speaker group |
+| 5 | Cost | Measured AI cost is at most PKR 2.0 per active minute (planning number 1.5) |
+| 6 | Admin | Written employer consent, and the business payment account has taken one real PKR 499 payment |
+
+If item 4 or 5 fails, test one other provider. If it still fails, stop before Phase 1. If item 1 or 2 fails, change the offer or stop; do not build Phase 1.
 
 ---
 
@@ -65,12 +82,13 @@ Session P0-2: Voice test harness. Phase 0 pipeline step, no app screens.
 
 Read CLAUDE.md and the PRD sections on the voice test, G0 and providers first.
 
-Goal: test speech-to-text and the feedback model on 40 real Pakistani recordings before Phase 1, and measure the real AI cost per minute.
+Goal: test speech-to-text and the feedback model on 40 real Pakistani recordings from at least 15 different speakers before Phase 1, and measure the real AI cost per minute.
 1. One command (for example npm run voice-test) that reads audio from voice-test/recordings/ and a consent.csv (file, consent_version, date). It refuses any file without a consent version, because no audio may reach an AI provider before consent is stored.
 2. For each file: speech-to-text through /lib/stt, then the feedback step through /lib/llm (0-100 Practice Score and 3 corrections explained in Urdu). Time both steps.
-3. Compare each transcript with a human reference in reference.csv and report word error rate per file and overall (and per speaker group if the CSV has one).
-4. Log provider cost in USD and PKR per file and per audio minute, and compare it with the planning number `economics.ai_cost_pkr_per_active_minute_planning` (1.5 PKR) in config/app.json.
-5. Write results to voice-test/results/ (git-ignored): a CSV and a short summary.md with accuracy, cost per minute, latency and failed files, against the PRD's voice-test target.
+3. Compare each transcript with a human reference in reference.csv (file, speaker, speaker group, reference transcript) and report word error rate per file, overall and per speaker group.
+4. Read my marks in corrections_review.csv (file, correction 1-3, right or wrong) and report the share of corrections judged right.
+5. Log provider cost in USD and PKR per file and per audio minute, and compare it with the planning number `economics.ai_cost_pkr_per_active_minute_planning` (1.5 PKR) in config/app.json and with the G0 limit of PKR 2.0.
+6. Write results to voice-test/results/ (git-ignored): a CSV and a short summary.md with accuracy, correction quality, cost per minute, latency and failed files. End summary.md with pass or fail for G0 items 4 and 5 (WER at most 20% overall and 25% for any speaker group, at least 90% of corrections right, at most PKR 2.0 per active minute).
 
 Before writing any adapter, ask me which one or two providers to test (the PRD lists them). Keys come only from the environment. Plan first, then build, then give me exact steps to run it on my laptop.
 ```
