@@ -6,10 +6,12 @@ const locale = z.enum(LOCALES);
 
 // A value that may not be decided yet. null is valid in the file but throws when a feature reads it.
 const num = z.number().nullable();
+const positive = z.number().positive().nullable();
 const count = z.number().int().nonnegative().nullable();
 
 // ---------- plans.json ----------
-const paymentMode = z.enum(["none", "manual", "auto_pay", "invoice"]).nullable();
+// auto_pay is what Weekly 299 uses (Phase 2). gateway_autopay is the value PRD section 16 gives for Plus (Phase 3).
+const paymentMode = z.enum(["none", "manual", "auto_pay", "gateway_autopay", "invoice"]).nullable();
 
 const basePlan = {
   phase: z.union([z.literal(1), z.literal(2), z.literal(3)]).nullable(),
@@ -44,6 +46,10 @@ export const plansSchema = z.strictObject({
     founding_pro: z.strictObject({
       ...basePlan,
       limited_to_first_users: count,
+      /**
+       * Stays null on purpose. PRD 5.5 and 16 give a rule, not a number: Founding Pro renews at the user's own
+       * Pro 30 price (799, or 999 in the price-test group). Read plans.pro_30 instead of typing a number here.
+       */
       renewal_price_pkr: count,
     }),
     weekly_299: z.strictObject(basePlan),
@@ -61,11 +67,20 @@ export const plansSchema = z.strictObject({
 });
 
 // ---------- app.json ----------
+export const PAYMENT_METHODS = ["easypaisa", "jazzcash", "raast"] as const;
+export type PaymentMethod = (typeof PAYMENT_METHODS)[number];
+
+/** A 24-hour clock time in Pakistan time, such as "08:00". */
+const clockTime = z.string().regex(/^([01]\d|2[0-3]):[0-5]\d$/, 'must be a 24-hour time such as "08:00"');
+const minutesOfDay = (time: string) => Number(time.slice(0, 2)) * 60 + Number(time.slice(3, 5));
+
 export const appSchema = z.strictObject({
   app: z.strictObject({
     default_locale: locale,
     current_phase: z.union([z.literal(1), z.literal(2), z.literal(3)]),
     tracks: z.array(z.string().min(1)),
+    /** A "Bolo day" runs from this hour to the same hour next day, Pakistan time (PRD 4.9). Resets day caps and streaks. */
+    day_starts_at_hour_pkt: z.number().int().min(0).max(23).nullable(),
   }),
   locales: z.strictObject({
     "ur-Latn": z.strictObject({ dir: z.enum(["ltr", "rtl"]) }),
@@ -85,8 +100,15 @@ export const appSchema = z.strictObject({
       per_ip_per_day: count,
       global_per_day: count,
     }),
+    /** All requests per minute, per user (PRD 10). */
     rate_limit_requests_per_minute: count,
+    /** AI calls per minute, per user (PRD 10). */
+    ai_calls_per_minute: count,
     daily_free_ai_budget_pkr: count,
+    /** Most data one full lesson may use, in MB, tutor audio and uploads included (PRD 14). */
+    lesson_data_budget_mb: positive,
+    /** Largest the PWA cache may grow, in MB (PRD 14). */
+    pwa_cache_max_mb: positive,
   }),
   retention: z.strictObject({
     audio_days: count,
@@ -97,11 +119,29 @@ export const appSchema = z.strictObject({
     version: z.string().min(1).nullable(),
   }),
   payments: z.strictObject({
-    approval_window: z.strictObject({
-      sla_minutes: count,
-      start_hour: z.number().int().min(0).max(23).nullable(),
-      end_hour: z.number().int().min(0).max(24).nullable(),
-    }),
+    /** Wallets and bank rails users can pay into (PRD 8 and 16). */
+    methods: z
+      .array(z.enum(PAYMENT_METHODS))
+      .min(1)
+      .refine((methods) => new Set(methods).size === methods.length, "a payment method is listed twice"),
+    /**
+     * Times of day, Pakistan time, when payments are decided (PRD 8). A payment is decided in the next window.
+     * List them in time order. A window cannot cross midnight.
+     */
+    approval_windows: z
+      .array(z.strictObject({ start: clockTime, end: clockTime }))
+      .min(1)
+      .superRefine((windows, ctx) => {
+        windows.forEach((window, index) => {
+          if (minutesOfDay(window.start) >= minutesOfDay(window.end)) {
+            ctx.addIssue({ code: "custom", path: [index, "end"], message: "must be later than start (a window cannot cross midnight)" });
+          }
+          const previous = windows[index - 1];
+          if (previous && minutesOfDay(window.start) < minutesOfDay(previous.end)) {
+            ctx.addIssue({ code: "custom", path: [index, "start"], message: "must not start before the previous window ends (list windows in time order)" });
+          }
+        });
+      }),
     approvals_per_day_warning: count,
   }),
   economics: z.strictObject({

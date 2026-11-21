@@ -7,6 +7,13 @@ import { ConfigError, createConfigReader, getConfig, optionalEnv, parseConfig, r
 const clone = <T,>(value: T): T => structuredClone(value);
 const raw = () => ({ plans: clone(plansJson), app: clone(appJson), strings: clone(stringsJson) });
 
+/** Paths of every null value in a parsed JSON file, e.g. "plans.free.minutes". */
+function nullPaths(value: unknown, prefix: string): string[] {
+  if (value === null) return [prefix];
+  if (typeof value !== "object" || Array.isArray(value)) return [];
+  return Object.entries(value).flatMap(([key, child]) => nullPaths(child, `${prefix}.${key}`));
+}
+
 function catchError(fn: () => unknown): ConfigError {
   try {
     fn();
@@ -33,17 +40,92 @@ describe("shipped config files", () => {
     expect(requireConfig("app", "retention.unclaimed_anonymous_audio_hours")).toBe(24);
   });
 
-  it("keeps undecided values null instead of guessing them", () => {
-    const { app } = getConfig().data;
-    expect(app.consent.version).toBeNull();
-    expect(app.limits.anonymous_test.global_per_day).toBeNull();
-    expect(app.payments.approval_window.sla_minutes).toBeNull();
+  it("keeps exactly these values null, because the PRD gives no number for them", () => {
+    // If you fill one of these, or add a new null, update this list on purpose.
+    expect([...nullPaths(plansJson, "plans"), ...nullPaths(appJson, "app")].sort()).toEqual([
+      "plans.plans.founding_pro.renewal_price_pkr", // PRD 5.5: a rule (the user's Pro 30 price), not a number
+      "plans.plans.free.day_cap_minutes", // PRD 16: the free plan uses free_allowance instead
+      "plans.plans.free.duration_days", // PRD 16: not used
+      "plans.plans.free.minutes", // PRD 16: not used
+    ]);
+  });
+});
+
+// Values added in P0-1b. Each row is [file, key, value, PRD section that gives it].
+describe("values filled from PRD section 16", () => {
+  const requireAny = (file: "app" | "plans", path: string) =>
+    (getConfig().require as (f: "app" | "plans", p: string) => unknown)(file, path);
+
+  it.each([
+    ["app", "app.day_starts_at_hour_pkt", 4, "4.9"],
+    ["app", "limits.anonymous_test.per_device_per_day", 2, "10"],
+    ["app", "limits.anonymous_test.per_ip_per_day", 10, "10"],
+    ["app", "limits.anonymous_test.global_per_day", 150, "10"],
+    ["app", "limits.rate_limit_requests_per_minute", 30, "10"],
+    ["app", "limits.ai_calls_per_minute", 6, "10"],
+    ["app", "limits.daily_free_ai_budget_pkr", 1500, "10"],
+    ["app", "limits.lesson_data_budget_mb", 1.5, "14"],
+    ["app", "limits.pwa_cache_max_mb", 5, "14"],
+    ["app", "consent.version", "ur-v1-2026-11", "9"],
+    ["app", "payments.methods", ["easypaisa", "jazzcash", "raast"], "8"],
+    [
+      "app",
+      "payments.approval_windows",
+      [
+        { start: "08:00", end: "08:30" },
+        { start: "13:00", end: "13:30" },
+        { start: "22:00", end: "23:30" },
+      ],
+      "8",
+    ],
+    ["plans", "plans.sprint_14.day_cap_minutes", 15, "5.3"],
+    ["plans", "plans.pro_30.day_cap_minutes", 15, "5.3"],
+    ["plans", "plans.founding_pro.day_cap_minutes", 15, "5.3"],
+    ["plans", "plans.weekly_299.day_cap_minutes", 15, "5.3"],
+    ["plans", "plans.plus_1499.payment_mode", "gateway_autopay", "5.1"],
+    ["plans", "plans.plus_1499.duration_days", 30, "5.1"],
+    ["plans", "plans.plus_1499.minutes", 300, "5.1"],
+    ["plans", "plans.plus_1499.day_cap_minutes", 15, "5.1"],
+    ["plans", "plans.team.phase", 1, "5.4"],
+  ] as const)("%s %s = %j (PRD %s)", (file, path, value, section) => {
+    expect(requireAny(file, path), `config/${file}.json "${path}" should match PRD section ${section}`).toEqual(value);
+  });
+
+  it("no longer has the old single approval window", () => {
+    const data = raw();
+    (data.app.payments as Record<string, unknown>).approval_window = { sla_minutes: null, start_hour: null, end_hour: null };
+    expect(catchError(() => parseConfig(data)).message).toContain("config/app.json");
+  });
+});
+
+describe("caps agree with each other", () => {
+  const requireAny = (file: "app" | "plans", path: string) =>
+    (getConfig().require as (f: "app" | "plans", p: string) => number)(file, path);
+
+  it.each(["sprint_14", "pro_30", "founding_pro", "weekly_299"])(
+    "%s uses the global B2C day cap, so the two cannot drift apart (PRD 5.3)",
+    (plan) => {
+      expect(requireAny("plans", `plans.${plan}.day_cap_minutes`)).toBe(requireAny("app", "limits.day_cap_minutes"));
+    },
+  );
+
+  it("Team learners have a lower day cap than B2C learners (PRD 5.3)", () => {
+    expect(requireAny("plans", "plans.team.day_cap_minutes")).toBeLessThan(requireAny("app", "limits.day_cap_minutes"));
+  });
+
+  it("free usage at the caps costs no more than the daily free-AI budget at the planning cost per minute (PRD 10)", () => {
+    const testMinutes = requireAny("app", "limits.anonymous_test.global_per_day") * requireAny("plans", "plans.free.free_allowance.level_test_minutes");
+    const lessonMinutes = requireAny("app", "limits.free_first_lessons_per_day") * requireAny("plans", "plans.free.free_allowance.first_lesson_minutes");
+    const cost = (testMinutes + lessonMinutes) * requireAny("app", "economics.ai_cost_pkr_per_active_minute_planning");
+    expect(cost).toBeLessThanOrEqual(requireAny("app", "limits.daily_free_ai_budget_pkr"));
   });
 });
 
 describe("requiring a value", () => {
   it("throws a clear error naming the file and key when the value is null", () => {
-    const error = catchError(() => requireConfig("app", "consent.version"));
+    const data = raw();
+    (data.app.consent as { version: string | null }).version = null;
+    const error = catchError(() => createConfigReader(parseConfig(data)).require("app", "consent.version"));
     expect(error.reason).toBe("null");
     expect(error.source).toBe("app");
     expect(error.path).toBe("consent.version");
@@ -111,6 +193,87 @@ describe("validation", () => {
     const data = raw();
     data.plans.plans.pro_30.price_test.share_of_new_users = 30;
     expect(catchError(() => parseConfig(data)).message).toContain("share_of_new_users");
+  });
+
+  describe("approval windows", () => {
+    const withWindows = (windows: unknown) => {
+      const data = raw();
+      (data.app.payments as { approval_windows: unknown }).approval_windows = windows;
+      return data;
+    };
+
+    it.each([
+      ["a time without a leading zero", [{ start: "8:00", end: "08:30" }], "approval_windows.0.start"],
+      ["an hour past 23", [{ start: "08:00", end: "24:00" }], "approval_windows.0.end"],
+      ["an end that is not after the start", [{ start: "13:30", end: "13:00" }], "approval_windows.0.end"],
+      ["a window that crosses midnight", [{ start: "23:00", end: "00:30" }], "approval_windows.0.end"],
+      [
+        "windows that overlap",
+        [
+          { start: "08:00", end: "09:00" },
+          { start: "08:30", end: "10:00" },
+        ],
+        "approval_windows.1.start",
+      ],
+      [
+        "windows out of time order",
+        [
+          { start: "13:00", end: "13:30" },
+          { start: "08:00", end: "08:30" },
+        ],
+        "approval_windows.1.start",
+      ],
+      ["an empty list", [], "approval_windows"],
+    ])("rejects %s", (_name, windows, path) => {
+      const error = catchError(() => parseConfig(withWindows(windows)));
+      expect(error.reason).toBe("invalid");
+      expect(error.message).toContain("config/app.json");
+      expect(error.message).toContain(`payments.${path}`);
+    });
+
+    it("accepts windows that touch end to start", () => {
+      const touching = [
+        { start: "08:00", end: "08:30" },
+        { start: "08:30", end: "09:00" },
+      ];
+      expect(() => parseConfig(withWindows(touching))).not.toThrow();
+    });
+  });
+
+  describe("payment methods", () => {
+    const withMethods = (methods: unknown) => {
+      const data = raw();
+      (data.app.payments as { methods: unknown }).methods = methods;
+      return data;
+    };
+
+    it.each([
+      ["an unknown method", ["easypaisa", "paypal"]],
+      ["a method listed twice", ["jazzcash", "jazzcash"]],
+      ["an empty list", []],
+    ])("rejects %s", (_name, methods) => {
+      expect(catchError(() => parseConfig(withMethods(methods))).message).toContain("payments.methods");
+    });
+  });
+
+  it.each([-1, 24, 4.5])("rejects a day-start hour of %j", (hour) => {
+    const data = raw();
+    (data.app.app as { day_starts_at_hour_pkt: number }).day_starts_at_hour_pkt = hour;
+    expect(catchError(() => parseConfig(data)).message).toContain("app.day_starts_at_hour_pkt");
+  });
+
+  it.each(["lesson_data_budget_mb", "pwa_cache_max_mb"] as const)("rejects a zero or negative %s", (key) => {
+    for (const value of [0, -1]) {
+      const data = raw();
+      data.app.limits[key] = value;
+      expect(catchError(() => parseConfig(data)).message).toContain(`limits.${key}`);
+    }
+  });
+
+  it("rejects an unknown payment mode", () => {
+    const data = raw();
+    (data.plans.plans.plus_1499 as { payment_mode: unknown }).payment_mode = "card";
+    expect(catchError(() => parseConfig(data)).message).toContain("plans.plus_1499.payment_mode");
   });
 
   it("rejects a bad colour", () => {
