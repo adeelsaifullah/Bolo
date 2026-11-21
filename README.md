@@ -1,15 +1,15 @@
 # Bolo
 
 Mobile-first PWA (Next.js App Router, TypeScript strict) where Pakistani job seekers practise spoken English.
-This folder is **P0-1: Foundation**: no screens, no database tables. Later sessions add one screen or one
-pipeline step each. Read `docs/PRD.md` and the build rules first (not in this folder yet; see "Missing inputs").
+This repo is Bolo only and shares nothing with the founder's other projects. P0-1 (foundation) is done: no screens,
+no database tables yet. Later sessions add one screen or one pipeline step each. Read `CLAUDE.md` (build rules),
+`docs/PRD.md`, `docs/BUSINESS_PLAN.md`, `docs/DECISIONS.md` and `docs/KICKOFF.md` (session order and prompts) first.
 
 ## Run it
 
 Needs Node 22+.
 
 ```bash
-cd bolo
 npm install
 cp .env.example .env.local   # fill in values; the app shell runs without Supabase keys
 npm run dev                  # http://localhost:3000
@@ -42,7 +42,7 @@ npm run build && npm start   # production build; the service worker only registe
 
 ## Missing inputs (placeholders to replace)
 
-- `docs/PRD.md` and `docs/KICKOFF.md` were not available. Values only they define are `null` in config
+- `docs/PRD.md` is still a placeholder. Values only it defines are `null` in config
   (consent version, anonymous-test caps, rate limits, daily free-AI budget, approval windows). Fill them in
   `config/app.json` when the PRD is added; features that need them will throw until then.
 - `config/strings.json` has 5 starter texts. The Urdu wording needs a native-speaker review.

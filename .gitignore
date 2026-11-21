@@ -12,3 +12,14 @@ npm-debug.log*
 .vercel
 *.tsbuildinfo
 next-env.d.ts
+
+# voice and user data never go to git (audio, transcripts, payment screenshots)
+voice-test/recordings/
+voice-test/results/
+data/private/
+*.wav
+*.webm
+*.m4a
+*.mp3
+*.ogg
+*.opus
